@@ -24,4 +24,29 @@ public enum TipoCasilla {
 	public Color getColor() {
 		return color;
 	}
+	
+	@Override
+	public String toString() {
+		String res = "";
+		
+		switch(this) {
+		case AGUA:
+			res = "Agua";
+			break;
+		case LLANURA:
+			res = "Llanura";
+			break;
+		case BOSQUE:
+			res = "Bosque";
+			break;
+		case DESIERTO:
+			res = "Desierto";
+			break;
+		case MONTE:
+			res = "Monte";
+			break;
+		}
+		
+		return res;
+	}
 }

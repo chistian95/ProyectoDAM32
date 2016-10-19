@@ -1,20 +1,22 @@
-package juego.mapa;
+package juego.mapa.raster;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Seed {
+import juego.mapa.Casilla;
+import juego.mapa.Generador;
+import juego.mapa.TipoCasilla;
+
+public class Seed extends Rasterizador {
 	public final int TAM_SEED = 10;
 	
-	private static final double PROB_AGUA = 70;
+	private static final double PROB_AGUA = 52;
 	
-	private List<Casilla> casillas;
-	
-	public Seed() {
-		casillas = generar();
+	public Seed(Generador generador) {
+		super(generador);
 	}
 	
-	private List<Casilla> generar() {
+	public List<Casilla> generar() {
 		List<Casilla> seed = new ArrayList<Casilla>();
 		
 		for(int y=0; y<TAM_SEED; y++) {
@@ -48,15 +50,11 @@ public class Seed {
 	}
 	
 	public Casilla buscarCasilla(int x, int y) {
-		for(Casilla cas : casillas) {
+		for(Casilla cas : this.getCasillas()) {
 			if(cas.getX() == x && cas.getY() == y) {
 				return cas;
 			}
 		}
 		return null;
-	}
-	
-	public List<Casilla> getCasillas() {
-		return casillas;
 	}
 }

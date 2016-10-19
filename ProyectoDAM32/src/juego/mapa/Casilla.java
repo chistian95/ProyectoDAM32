@@ -15,6 +15,10 @@ public class Casilla {
 		return tipo;
 	}
 	
+	public void setTipo(TipoCasilla tipo) {
+		this.tipo = tipo;
+	}
+	
 	public int getX() {
 		return x;
 	}
