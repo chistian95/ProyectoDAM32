@@ -1,8 +1,5 @@
 package juego.mapa.raster;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import juego.mapa.Casilla;
 import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
@@ -17,8 +14,8 @@ public class Seed extends Rasterizador {
 	}
 	
 	@Override
-	public List<Casilla> generar() {
-		List<Casilla> seed = new ArrayList<Casilla>();
+	public void generar() {
+		this.getGenerador().setFase(0);
 		
 		for(int y=0; y<TAM_SEED; y++) {
 			for(int x=0; x<TAM_SEED; x++) {
@@ -43,11 +40,15 @@ public class Seed extends Rasterizador {
 				}
 				
 				Casilla cas = new Casilla(tipo, x, y);
-				seed.add(cas);
+				this.getCasillas().add(cas);
+				
+				try {
+					Thread.sleep(10);
+				} catch(Exception e) {
+					
+				}
 			}
 		}
-		
-		return seed;
 	}
 	
 	public Casilla buscarCasilla(int x, int y) {

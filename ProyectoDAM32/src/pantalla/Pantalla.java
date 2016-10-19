@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -14,7 +16,7 @@ import javax.swing.Timer;
 
 import juego.mapa.Generador;
 
-public class Pantalla extends JFrame {	
+public class Pantalla extends JFrame implements KeyListener {	
 	private static final long serialVersionUID = 1L;	
 	
 	public final int WIDTH = 800;
@@ -34,6 +36,8 @@ public class Pantalla extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         
+        addKeyListener(this);
+        
         addWindowListener(new WindowAdapter() {
         	public void windowClosing(WindowEvent e) {
         		dispose();
@@ -50,17 +54,14 @@ public class Pantalla extends JFrame {
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		switch(generador.getFase()) {
-		case -1:
-			render.pintarMenu(bff);
-			break;
 		case 0:
-			render.pintarSeed(bff);
+			render.getVistaMapaGen().pintarSeed(bff);
 			break;
 		case 1:
-			render.pintarPaso1(bff);
+			render.getVistaMapaGen().pintarPaso1(bff);
 			break;
 		case 2:
-			render.pintarPaso2(bff);
+			render.getVistaMapaGen().pintarPaso2(bff);
 		}
 		
 		g.drawImage(bf, 0, 0, null);
@@ -79,5 +80,20 @@ public class Pantalla extends JFrame {
 	
 	public Generador getGenerador() {
 		return generador;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
 	}
 }

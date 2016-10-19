@@ -9,7 +9,6 @@ public class Generador extends Thread {
 	private Paso1 paso1;
 	private Paso2 paso2;
 	private int fase;
-	private int faseGen;
 	
 	public Generador() {
 		fase = -1;
@@ -17,9 +16,15 @@ public class Generador extends Thread {
 	}
 	
 	public void run() {
-		seed = new Seed(this);
-		paso1 = new Paso1(this);
-		paso2 = new Paso2(this);
+		try {
+			seed = new Seed(this);
+			seed.join();
+			paso1 = new Paso1(this);
+			paso1.join();
+			paso2 = new Paso2(this);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}		
 	}
 	
 	public Seed getSeed() {
@@ -38,25 +43,7 @@ public class Generador extends Thread {
 		return fase;
 	}
 	
-	public int getFaseGen() {
-		return faseGen;
-	}
-	
-	public void setFaseGen(int faseGen) {
-		this.faseGen = faseGen;
-	}
-	
 	public void setFase(int fase) {
 		this.fase = fase;
-		if(fase == 0) {
-			try {
-				Thread.sleep(200);
-				this.fase++;
-				Thread.sleep(200);
-				this.fase++;
-			} catch(Exception e) {
-				e.printStackTrace();
-			}			
-		}
 	}
 }
