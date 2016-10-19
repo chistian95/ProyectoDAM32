@@ -1,25 +1,29 @@
 package juego.mapa;
 
-public class Generador {
-	private Casilla[][] seed;
+public class Generador {	
+	private Seed seed;
+	private Paso1 paso1;
+	private int fase;
 	
-	public Generador() {
-		seed = new Casilla[10][10];
-		
-		generarSeed();
+	public Generador() {	
+		seed = new Seed();
+		paso1 = new Paso1(this);			
+		fase = 0;	
 	}
 	
-	private void generarSeed() {
-		for(int y=0; y<seed.length; y++) {
-			for(int x=0; x<seed[y].length; x++) {
-				int rnd = (int) (Math.random()*TipoCasilla.values().length);
-				Casilla cas = new Casilla(TipoCasilla.values()[rnd]);
-				seed[y][x] = cas;
-			}
-		}
-	}
-	
-	public Casilla[][] getSeed() {
+	public Seed getSeed() {
 		return seed;
+	}
+	
+	public Paso1 getPaso1() {
+		return paso1;
+	}
+	
+	public int getFase() {
+		return fase;
+	}
+	
+	public void setFase(int fase) {
+		this.fase = fase;
 	}
 }

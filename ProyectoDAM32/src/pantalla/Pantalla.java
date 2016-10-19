@@ -14,10 +14,11 @@ import javax.swing.Timer;
 
 import juego.mapa.Generador;
 
-public class Pantalla extends JFrame {
-	private static final long serialVersionUID = 1L;
-	private static final int WIDTH = 800;
-	private static final int HEIGHT = 800;
+public class Pantalla extends JFrame {	
+	private static final long serialVersionUID = 1L;	
+	
+	public final int WIDTH = 800;
+	public final int HEIGHT = 800;
 	
 	private Generador generador;
 	private Renderizador render;
@@ -48,7 +49,14 @@ public class Pantalla extends JFrame {
 		bff.setColor(Color.WHITE);
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		render.pintarSeed(bff);
+		switch(generador.getFase()) {
+		case 0:
+			render.pintarSeed(bff);
+			break;
+		case 1:
+			render.pintarPaso1(bff);
+			break;
+		}
 		
 		g.drawImage(bf, 0, 0, null);
 	}
