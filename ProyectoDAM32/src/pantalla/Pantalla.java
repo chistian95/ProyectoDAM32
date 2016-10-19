@@ -50,12 +50,17 @@ public class Pantalla extends JFrame {
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		switch(generador.getFase()) {
+		case -1:
+			render.pintarMenu(bff);
+			break;
 		case 0:
 			render.pintarSeed(bff);
 			break;
 		case 1:
 			render.pintarPaso1(bff);
 			break;
+		case 2:
+			render.pintarPaso2(bff);
 		}
 		
 		g.drawImage(bf, 0, 0, null);

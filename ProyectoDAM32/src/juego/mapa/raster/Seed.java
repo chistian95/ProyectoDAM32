@@ -16,6 +16,7 @@ public class Seed extends Rasterizador {
 		super(generador);
 	}
 	
+	@Override
 	public List<Casilla> generar() {
 		List<Casilla> seed = new ArrayList<Casilla>();
 		
