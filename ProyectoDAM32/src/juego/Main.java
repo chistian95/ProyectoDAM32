@@ -1,10 +1,13 @@
 package juego;
 
+import juego.mapa.Generador;
+import pantalla.Pantalla;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Generador gen = new Generador();
+		new Pantalla(gen);
 	}
 
 }
