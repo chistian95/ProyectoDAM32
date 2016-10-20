@@ -17,6 +17,7 @@ public class Seed extends Rasterizador {
 	public void generar() {
 		this.getGenerador().setFase(0);
 		
+		
 		for(int y=0; y<TAM_SEED; y++) {
 			for(int x=0; x<TAM_SEED; x++) {
 				TipoCasilla tipo = TipoCasilla.AGUA;

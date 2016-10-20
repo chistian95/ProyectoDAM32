@@ -16,26 +16,36 @@ public class Paso2 extends Rasterizador {
 	}
 
 	@Override
-	public void generar() {
+	public void generar() {	
 		this.getGenerador().setFase(2);
 		List<Casilla> pasof1 = this.getGenerador().getPaso1().getCasillas();	
 		
 		for(Casilla cas : pasof1) {
 			for(int y=0; y<TAM_PASO2; y++) {
+				Casilla casAnt = null;
 				for(int x=0; x<TAM_PASO2; x++) {
 					int posX = cas.getX()*TAM_PASO2 + x;
 					int posY = cas.getY()*TAM_PASO2 + y;
 					Casilla casP1 = new Casilla(cas.getTipo(), posX, posY);
-					this.getCasillas().add(casP1);
+					
+					if(casAnt != null) {
+						casAnt.setCasRight(casP1);
+						casP1.setCasLeft(casAnt);
+					}
+					casAnt = casP1;
+					
+					this.getCasillas().add(casP1);					
 				}
 			}
 		}
 		
-		for(Casilla cas : this.getCasillas()) {
-			double rnd = Math.random()*100;
-			if(!cas.getTipo().equals(TipoCasilla.AGUA) && rnd <= PROB_MONTE) {				
-				cas.setTipo(TipoCasilla.MONTE);
-				continue;
+		for(Casilla cas : this.getCasillas()) {			
+			if(!cas.getTipo().equals(TipoCasilla.AGUA)) {	
+				double rnd = Math.random()*100;
+				if(rnd <= PROB_MONTE) {
+					cas.setTipo(TipoCasilla.MONTE);
+					continue;
+				}				
 			}
 			cas.setTipo(getTipo(this.getCasillas(), cas));
 		}
