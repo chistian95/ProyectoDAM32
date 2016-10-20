@@ -7,7 +7,7 @@ import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
 
 public class Paso1 extends Rasterizador {
-	public final int TAM_PASO1 = 50;
+	public final int TAM_PASO1 = 5;
 	public final double PROB_ISLA = 1.25;
 		
 	public Paso1(Generador generador) {
@@ -19,12 +19,11 @@ public class Paso1 extends Rasterizador {
 		this.getGenerador().setFase(1);
 		List<Casilla> seed = this.getGenerador().getSeed().getCasillas();
 		
-		int div = TAM_PASO1 / this.getGenerador().getSeed().TAM_SEED;
 		for(Casilla cas : seed) {
-			for(int y=0; y<div; y++) {
-				for(int x=0; x<div; x++) {
-					int posX = cas.getX()*div + x;
-					int posY = cas.getY()*div + y;
+			for(int y=0; y<TAM_PASO1; y++) {
+				for(int x=0; x<TAM_PASO1; x++) {
+					int posX = cas.getX()*TAM_PASO1 + x;
+					int posY = cas.getY()*TAM_PASO1 + y;
 					Casilla casP1 = new Casilla(cas.getTipo(), posX, posY);
 					this.getCasillas().add(casP1);
 				}
@@ -53,12 +52,6 @@ public class Paso1 extends Rasterizador {
 				continue;
 			}
 			cas.setTipo(getTipo(this.getCasillas(), cas));
-			
-			try {
-				Thread.sleep(1);
-			} catch(Exception e) {
-				
-			}
 		}
 	}	
 }

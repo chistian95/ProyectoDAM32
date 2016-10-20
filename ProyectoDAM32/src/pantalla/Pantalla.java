@@ -19,8 +19,8 @@ import juego.mapa.Generador;
 public class Pantalla extends JFrame implements KeyListener {	
 	private static final long serialVersionUID = 1L;	
 	
-	public final int WIDTH = 800;
-	public final int HEIGHT = 800;
+	public final int WIDTH = 720;
+	public final int HEIGHT = 720;
 	
 	private Generador generador;
 	private Renderizador render;

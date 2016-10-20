@@ -5,9 +5,9 @@ import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
 
 public class Seed extends Rasterizador {
-	public final int TAM_SEED = 10;
+	public final int TAM_SEED = 12;
 	
-	private static final double PROB_AGUA = 52;
+	private static final double PROB_AGUA = 50;
 	
 	public Seed(Generador generador) {
 		super(generador);
@@ -41,12 +41,6 @@ public class Seed extends Rasterizador {
 				
 				Casilla cas = new Casilla(tipo, x, y);
 				this.getCasillas().add(cas);
-				
-				try {
-					Thread.sleep(10);
-				} catch(Exception e) {
-					
-				}
 			}
 		}
 	}

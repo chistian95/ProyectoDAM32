@@ -7,7 +7,7 @@ import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
 
 public class Paso2 extends Rasterizador {
-	public final int TAM_PASO2 = 200;
+	public final int TAM_PASO2 = 4;
 	public final double PROB_MONTE = 0.5;
 
 	public Paso2(Generador generador) {
@@ -18,14 +18,13 @@ public class Paso2 extends Rasterizador {
 	@Override
 	public void generar() {
 		this.getGenerador().setFase(2);
-		List<Casilla> pasof1 = this.getGenerador().getPaso1().getCasillas();		
+		List<Casilla> pasof1 = this.getGenerador().getPaso1().getCasillas();	
 		
-		int div = TAM_PASO2 / this.getGenerador().getPaso1().TAM_PASO1;
 		for(Casilla cas : pasof1) {
-			for(int y=0; y<div; y++) {
-				for(int x=0; x<div; x++) {
-					int posX = cas.getX()*div + x;
-					int posY = cas.getY()*div + y;
+			for(int y=0; y<TAM_PASO2; y++) {
+				for(int x=0; x<TAM_PASO2; x++) {
+					int posX = cas.getX()*TAM_PASO2 + x;
+					int posY = cas.getY()*TAM_PASO2 + y;
 					Casilla casP1 = new Casilla(cas.getTipo(), posX, posY);
 					this.getCasillas().add(casP1);
 				}

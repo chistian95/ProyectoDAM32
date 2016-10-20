@@ -1,6 +1,7 @@
 package pantalla;
 
 import java.awt.Graphics2D;
+import java.util.Iterator;
 import java.util.List;
 
 import juego.mapa.Casilla;
@@ -22,7 +23,9 @@ public class VistaMapaGen {
 		tam_seed = pantalla.WIDTH / pantalla.getGenerador().getSeed().TAM_SEED;
 		List<Casilla> seed = generador.getSeed().getCasillas();
 		
-		for(Casilla cas : seed) {
+		Iterator<Casilla> it = seed.iterator();
+		while(it.hasNext()) {
+			Casilla cas = it.next();
 			int x = cas.getX()*tam_seed;
 			int y = cas.getY()*tam_seed;
 			g.setColor(cas.getTipo().getColor());
@@ -31,10 +34,11 @@ public class VistaMapaGen {
 	}
 	
 	public void pintarPaso1(Graphics2D g) {
-		tam_paso1 = pantalla.WIDTH / pantalla.getGenerador().getPaso1().TAM_PASO1;
+		tam_paso1 = pantalla.WIDTH / (pantalla.getGenerador().getSeed().TAM_SEED * pantalla.getGenerador().getPaso1().TAM_PASO1);
 		List<Casilla> paso1 = generador.getPaso1().getCasillas();
-		
-		for(Casilla cas : paso1) {
+		Iterator<Casilla> it = paso1.iterator();
+		while(it.hasNext()) {
+			Casilla cas = it.next();
 			int x = cas.getX()*tam_paso1;
 			int y = cas.getY()*tam_paso1;
 			g.setColor(cas.getTipo().getColor());
@@ -43,10 +47,12 @@ public class VistaMapaGen {
 	}
 	
 	public void pintarPaso2(Graphics2D g) {
-		tam_paso2 = pantalla.WIDTH / pantalla.getGenerador().getPaso2().TAM_PASO2;
+		tam_paso2 = pantalla.WIDTH / (pantalla.getGenerador().getSeed().TAM_SEED * pantalla.getGenerador().getPaso1().TAM_PASO1 * pantalla.getGenerador().getPaso2().TAM_PASO2);
 		List<Casilla> paso2 = generador.getPaso2().getCasillas();
 		
-		for(Casilla cas : paso2) {
+		Iterator<Casilla> it = paso2.iterator();
+		while(it.hasNext()) {
+			Casilla cas = it.next();
 			int x = cas.getX()*tam_paso2;
 			int y = cas.getY()*tam_paso2;
 			g.setColor(cas.getTipo().getColor());
