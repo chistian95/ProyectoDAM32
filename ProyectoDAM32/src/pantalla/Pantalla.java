@@ -53,16 +53,7 @@ public class Pantalla extends JFrame implements KeyListener {
 		bff.setColor(Color.WHITE);
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		switch(generador.getFase()) {
-		case 0:
-			render.getVistaMapaGen().pintarSeed(bff);
-			break;
-		case 1:
-			render.getVistaMapaGen().pintarPaso1(bff);
-			break;
-		case 2:
-			render.getVistaMapaGen().pintarPaso2(bff);
-		}
+		render.getVistaMapaGen().pintar(bff);
 		
 		g.drawImage(bf, 0, 0, null);
 	}

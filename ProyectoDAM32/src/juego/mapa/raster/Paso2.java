@@ -1,53 +1,54 @@
 package juego.mapa.raster;
 
-import java.util.List;
-
 import juego.mapa.Casilla;
 import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
 
 public class Paso2 extends Rasterizador {
-	public final int TAM_PASO2 = 4;
+	public static final int TAM_PASO2 = 4;
 	public final double PROB_MONTE = 0.5;
 
 	public Paso2(Generador generador) {
-		super(generador);
+		super(generador, Seed.TAM_SEED*Paso1.TAM_PASO1*TAM_PASO2);
 		generador.setFase(0);
 	}
 
 	@Override
 	public void generar() {	
 		this.getGenerador().setFase(2);
-		List<Casilla> pasof1 = this.getGenerador().getPaso1().getCasillas();	
+		Casilla[][] paso1 = getGenerador().getPaso1().getCasillas();	
 		
-		for(Casilla cas : pasof1) {
+		for(int yPaso1=0; yPaso1<paso1.length; yPaso1++) {
 			for(int y=0; y<TAM_PASO2; y++) {
-				Casilla casAnt = null;
-				for(int x=0; x<TAM_PASO2; x++) {
-					int posX = cas.getX()*TAM_PASO2 + x;
-					int posY = cas.getY()*TAM_PASO2 + y;
-					Casilla casP1 = new Casilla(cas.getTipo(), posX, posY);
-					
-					if(casAnt != null) {
-						casAnt.setCasRight(casP1);
-						casP1.setCasLeft(casAnt);
+				for(int xPaso1=0; xPaso1<paso1.length; xPaso1++) {
+					for(int x=0; x<TAM_PASO2; x++) {
+						int posX = xPaso1*TAM_PASO2 + x;
+						int posY = yPaso1*TAM_PASO2 + y;
+						Casilla cas = new Casilla(paso1[xPaso1][yPaso1].getTipo(), posX, posY);
+						getCasillas()[posX][posY] = cas;
 					}
-					casAnt = casP1;
-					
-					this.getCasillas().add(casP1);					
 				}
 			}
 		}
 		
-		for(Casilla cas : this.getCasillas()) {			
-			if(!cas.getTipo().equals(TipoCasilla.AGUA)) {	
-				double rnd = Math.random()*100;
-				if(rnd <= PROB_MONTE) {
-					cas.setTipo(TipoCasilla.MONTE);
-					continue;
-				}				
+		for(int y=0; y<getCasillas().length; y++) {
+			for(int x=0; x<getCasillas().length; x++) {
+				Casilla cas = getCasillas()[x][y];
+				if(!cas.getTipo().equals(TipoCasilla.AGUA)) {	
+					double rnd = Math.random()*100;
+					if(rnd <= PROB_MONTE) {
+						cas.setTipo(TipoCasilla.MONTE);
+						continue;
+					}				
+				}
+				cas.setTipo(getTipo(getCasillas(), x, y));
 			}
-			cas.setTipo(getTipo(this.getCasillas(), cas));
+			
+			try {
+				Thread.sleep(0);
+			} catch(Exception e) {
+				
+			}
 		}
 	}
 

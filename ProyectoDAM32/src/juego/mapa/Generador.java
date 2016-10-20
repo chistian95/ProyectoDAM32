@@ -16,6 +16,7 @@ public class Generador extends Thread {
 	}
 	
 	public void run() {
+		long tStart = System.currentTimeMillis();
 		try {
 			seed = new Seed(this);
 			seed.join();
@@ -24,7 +25,11 @@ public class Generador extends Thread {
 			paso2 = new Paso2(this);
 		} catch(Exception e) {
 			e.printStackTrace();
-		}		
+		}
+		long tFin = System.currentTimeMillis();
+		long tDelta = tFin - tStart;
+		double tiempo = tDelta / 1000.0;
+		System.out.println("Tiempo: "+tiempo+" s");
 	}
 	
 	public Seed getSeed() {

@@ -5,12 +5,11 @@ import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
 
 public class Seed extends Rasterizador {
-	public final int TAM_SEED = 12;
-	
+	public static final int TAM_SEED = 12;
 	private static final double PROB_AGUA = 50;
 	
 	public Seed(Generador generador) {
-		super(generador);
+		super(generador, TAM_SEED);
 	}
 	
 	@Override
@@ -18,8 +17,8 @@ public class Seed extends Rasterizador {
 		this.getGenerador().setFase(0);
 		
 		
-		for(int y=0; y<TAM_SEED; y++) {
-			for(int x=0; x<TAM_SEED; x++) {
+		for(int y=0; y<getTam(); y++) {
+			for(int x=0; x<getTam(); x++) {
 				TipoCasilla tipo = TipoCasilla.AGUA;
 				
 				double rand = Math.random()*100;
@@ -41,17 +40,13 @@ public class Seed extends Rasterizador {
 				}
 				
 				Casilla cas = new Casilla(tipo, x, y);
-				this.getCasillas().add(cas);
+				getCasillas()[x][y] = cas;
+			}
+			try {
+				Thread.sleep(0);
+			} catch(Exception e) {
+				
 			}
 		}
-	}
-	
-	public Casilla buscarCasilla(int x, int y) {
-		for(Casilla cas : this.getCasillas()) {
-			if(cas.getX() == x && cas.getY() == y) {
-				return cas;
-			}
-		}
-		return null;
 	}
 }

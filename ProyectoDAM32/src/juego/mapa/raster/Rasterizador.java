@@ -1,20 +1,20 @@
 package juego.mapa.raster;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import juego.mapa.Casilla;
 import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
 
 public abstract class Rasterizador extends Thread {
-	private List<Casilla> casillas;
+	private Casilla[][] casillas;
 	private Generador generador;
+	private int tam;
 	
-	public Rasterizador(Generador generador) {
+	public Rasterizador(Generador generador, int tam) {
 		this.generador = generador;
-		this.casillas = new ArrayList<Casilla>();
+		this.tam = tam;
+		casillas = new Casilla[tam][tam];
 		start();
 	}
 	
@@ -22,36 +22,32 @@ public abstract class Rasterizador extends Thread {
 		generar();
 	}
 	
-	public Casilla buscarCasilla(List<Casilla> casillas, int x, int y) {
-		for(Casilla cas : casillas) {
-			if(cas.getX() == x && cas.getY() == y) {
-				return cas;
-			}
+	public TipoCasilla getTipo(Casilla[][] casillas, int x, int y) {
+		TipoCasilla tipoCasilla = casillas[x][y].getTipo();
+		
+		Casilla cas = casillas[x][y];
+		Casilla cas_up = cas;
+		if(y-1 >= 0) {
+			cas_up = casillas[x][y-1];
 		}
-		return null;
-	}
-	
-	public TipoCasilla getTipo(List<Casilla> casillas, Casilla cas) {		
-		TipoCasilla tipoCasilla = cas.getTipo();
+		Casilla cas_down = cas;
+		if(y+1 < casillas.length) {
+			cas_down = casillas[x][y+1];
+		}
+		Casilla cas_left = cas;
+		if(x-1 >= 0) {
+			cas_left = casillas[x-1][y];
+		}
+		Casilla cas_right = cas;
+		if(x+1 < casillas.length) {
+			cas_right = casillas[x+1][y];
+		}		
 		
-		long tStart = System.nanoTime();
-		/*
-		Casilla cas_up = this.buscarCasilla(casillas, cas.getX(), cas.getY()-1);
-		Casilla cas_down = this.buscarCasilla(casillas, cas.getX(), cas.getY()+1);
-		Casilla cas_left = this.buscarCasilla(casillas, cas.getX()-1, cas.getY());
-		Casilla cas_right = this.buscarCasilla(casillas, cas.getX()+1, cas.getY());
-		*/
-		Casilla cas_up = cas.getCasUp();
-		Casilla cas_down = cas.getCasDown();
-		Casilla cas_left = cas.getCasLeft();
-		Casilla cas_right = cas.getCasRight();
-		long tEnd = System.nanoTime();
-		long tDelta = tEnd - tStart;
-		double tiempo = tDelta / 1000.0;	
+		boolean iguales = false;
+		if(cas.getTipo().equals(cas_up.getTipo()) && cas.getTipo().equals(cas_down.getTipo()) && cas.getTipo().equals(cas_left.getTipo()) && cas.getTipo().equals(cas_right.getTipo())) {
+			iguales = true;
+		}
 		
-		boolean iguales = true;
-		
-		tStart = System.nanoTime();
 		//agua, llanura, bosque, desierto
 		HashMap<TipoCasilla, Integer> tipos = new HashMap<TipoCasilla, Integer>();
 		if(!iguales) {			
@@ -62,11 +58,7 @@ public abstract class Rasterizador extends Thread {
 			sumarTipos(tipos, cas_left);
 			sumarTipos(tipos, cas_right);
 		}		
-		tEnd = System.nanoTime();
-		tDelta = tEnd - tStart;
-		double tiempoSum = tDelta / 1000.0;
 		
-		tStart = System.nanoTime();
 		if(!iguales) {
 			double pesoTotal = 0.0;
 			for(int i=0; i<tipos.size(); i++) {
@@ -83,14 +75,6 @@ public abstract class Rasterizador extends Thread {
 				}
 			}
 		}
-		tEnd = System.nanoTime();
-		tDelta = tEnd - tStart;
-		double tiempoPes = tDelta / 1000.0;
-		
-		System.out.println();
-		System.out.println("Tiempo busqueda: "+tiempo+" ms");
-		System.out.println("Tiempo sumar: "+tiempoSum+" ms");
-		System.out.println("Tiempo peso: "+tiempoPes+" ms");
 		
 		return tipoCasilla;
 	}
@@ -108,11 +92,15 @@ public abstract class Rasterizador extends Thread {
 	
 	public abstract void generar();
 	
-	public synchronized List<Casilla> getCasillas() {
+	public Casilla[][] getCasillas() {
 		return casillas;
 	}
 	
 	public Generador getGenerador() {
 		return generador;
+	}
+	
+	public int getTam() {
+		return tam;
 	}
 }
