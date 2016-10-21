@@ -11,12 +11,11 @@ import juego.mapa.TipoCasilla;
 public class Paso2 extends Rasterizador {
 	public static final int TAM_PASO2 = 4;
 	
-	private static final int DELAY_GEN = 5;
-	private static final int DELAY_RIOS = 500;
+	private static final int DELAY_GEN = 5; //5
+	private static final int DELAY_RIOS = 1; //1
 	
 	public final double PROB_MONTE = 0.5;
-	public final double PROB_RIO = 0.075;
-	public final int LIM_RIO = 10;
+	public final double PROB_RIO = 0.15;
 
 	public Paso2(Generador generador) {
 		super(generador, Seed.TAM_SEED*Paso1.TAM_PASO1*TAM_PASO2);
@@ -68,7 +67,7 @@ public class Paso2 extends Rasterizador {
 					double rnd = Math.random()*100;
 					if(rnd <= PROB_RIO) {
 						int dirRnd = (int) (Math.random()*Direccion.values().length);
-						generarRio(x, y, Direccion.values()[dirRnd], 0);
+						generarRio(x, y, Direccion.values()[dirRnd]);
 						continue;
 					}	
 				}
@@ -76,10 +75,7 @@ public class Paso2 extends Rasterizador {
 		}
 	}
 	
-	private void generarRio(int x, int y, Direccion dir, int iteraciones) {		
-		if(iteraciones > LIM_RIO) {
-			return;
-		}
+	private void generarRio(int x, int y, Direccion dir) {	
 		
 		Casilla[][] casillas = getCasillas();		
 		casillas[x][y].setTipo(TipoCasilla.RIO);
@@ -132,12 +128,12 @@ public class Paso2 extends Rasterizador {
 		}
 		
 		try {
-			Thread.sleep(0, DELAY_RIOS);
+			Thread.sleep(DELAY_RIOS);
 		} catch(Exception e) {
 			
 		}
 		
-		generarRio(cas.getX(), cas.getY(), dir, iteraciones++);
+		generarRio(cas.getX(), cas.getY(), dir);
 	}
 
 	private boolean validarRio(int x, int y, Direccion dir) {

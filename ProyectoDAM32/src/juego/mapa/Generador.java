@@ -23,6 +23,7 @@ public class Generador extends Thread {
 			paso1 = new Paso1(this);
 			paso1.join();
 			paso2 = new Paso2(this);
+			paso2.join();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

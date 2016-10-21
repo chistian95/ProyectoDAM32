@@ -7,7 +7,7 @@ import juego.mapa.TipoCasilla;
 public class Seed extends Rasterizador {
 	public static final int TAM_SEED = 12;
 	
-	private static final int DELAY_GEN = 50;
+	private static final int DELAY_GEN = 50; //50
 	
 	private static final double PROB_AGUA = 50;
 	

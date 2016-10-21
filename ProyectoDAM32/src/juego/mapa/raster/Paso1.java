@@ -6,8 +6,9 @@ import juego.mapa.TipoCasilla;
 
 public class Paso1 extends Rasterizador {
 	public final static int TAM_PASO1 = 5;
+	public final static int TAM_HIELO = 3;
 	
-	private static final int DELAY_GEN = 15;
+	private static final int DELAY_GEN = 15; //15
 	
 	public final double PROB_ISLA = 1.25;
 		
@@ -64,5 +65,58 @@ public class Paso1 extends Rasterizador {
 			
 			}
 		}
+		
+		for(int y=0; y<getCasillas().length; y++) {
+			getCasillas()[0][y].setTipo(TipoCasilla.AGUA);
+			getCasillas()[1][y].setTipo(TipoCasilla.AGUA);
+			getCasillas()[getCasillas().length-1][y].setTipo(TipoCasilla.AGUA);
+			getCasillas()[getCasillas().length-2][y].setTipo(TipoCasilla.AGUA);
+			
+			double rnd = Math.random()*100;
+			if(rnd < 25) {
+				getCasillas()[2][y].setTipo(TipoCasilla.AGUA);
+			}
+			rnd = Math.random()*100;
+			if(rnd < 25) {
+				getCasillas()[getCasillas().length-3][y].setTipo(TipoCasilla.AGUA);
+			}			
+			
+			try {
+				Thread.sleep(DELAY_GEN/10);
+			} catch(Exception e) {
+			
+			}
+		}
+		
+		for(int x=0; x<getCasillas().length; x++) {
+			for(int y=0; y<TAM_HIELO; y++) {
+				if(y <= 1 || y >= getCasillas().length-2) {
+					getCasillas()[x][y].setTipo(TipoCasilla.HIELO);
+					continue;
+				}
+				if(getCasillas()[x][y].getTipo().equals(TipoCasilla.AGUA)) {
+					continue;
+				}
+				getCasillas()[x][y].setTipo(TipoCasilla.TUNDRA);
+			}
+			
+			for(int y=getCasillas().length-1; y>=getCasillas().length-1-TAM_HIELO; y--) {
+				if(y <= 1 || y >= getCasillas().length-2) {
+					getCasillas()[x][y].setTipo(TipoCasilla.HIELO);
+					continue;
+				}
+				if(getCasillas()[x][y].getTipo().equals(TipoCasilla.AGUA)) {
+					continue;
+				}
+				getCasillas()[x][y].setTipo(TipoCasilla.TUNDRA);
+			}
+			
+			try {
+				Thread.sleep(DELAY_GEN/10);
+			} catch(Exception e) {
+			
+			}
+		}
+		
 	}
 }	

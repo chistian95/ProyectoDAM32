@@ -6,9 +6,11 @@ public enum TipoCasilla {
 	AGUA(0, "Mar", false, new Color(65, 105, 225)), 
 	LLANURA(1, "Llanura", true, new Color(144, 238, 144)), 
 	BOSQUE(2, "Bosque", true, new Color(0, 100, 0)), 
-	DESIERTO(3, "Desierto", true, new Color(255, 222, 173)), 
+	DESIERTO(3, "Desierto", true, new Color(239, 232, 134)),
 	MONTE(4, "Monte", false, new Color(220, 220, 220)),
-	RIO(4, "Río", false, new Color(65, 163, 255));
+	RIO(5, "Río", false, new Color(65, 163, 255)),
+	TUNDRA(6, "Tundra", true, new Color(227, 229, 232)),
+	HIELO(7, "Hielo", false, new Color(220, 220, 220));
 	
 	private int tipo;
 	private Color color;
