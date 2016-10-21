@@ -3,17 +3,22 @@ package juego.mapa;
 import java.awt.Color;
 
 public enum TipoCasilla {
-	AGUA(0, new Color(65, 105, 225)), 
-	LLANURA(1, new Color(144, 238, 144)), 
-	BOSQUE(2, new Color(0, 100, 0)), 
-	DESIERTO(3, new Color(255, 222, 173)), 
-	MONTE(4, new Color(220, 220, 220));
+	AGUA(0, "Mar", false, new Color(65, 105, 225)), 
+	LLANURA(1, "Llanura", true, new Color(144, 238, 144)), 
+	BOSQUE(2, "Bosque", true, new Color(0, 100, 0)), 
+	DESIERTO(3, "Desierto", true, new Color(255, 222, 173)), 
+	MONTE(4, "Monte", false, new Color(220, 220, 220)),
+	RIO(4, "Río", false, new Color(65, 163, 255));
 	
 	private int tipo;
 	private Color color;
+	private String nombre;
+	private boolean moldeable;
 	
-	private TipoCasilla(int tipo, Color color) {
+	private TipoCasilla(int tipo, String nombre, boolean moldeable, Color color) {
 		this.tipo = tipo;
+		this.nombre = nombre;
+		this.moldeable = moldeable;
 		this.color = color;
 	}
 	
@@ -25,28 +30,12 @@ public enum TipoCasilla {
 		return color;
 	}
 	
+	public boolean isMoldeable() {
+		return moldeable;
+	}
+	
 	@Override
 	public String toString() {
-		String res = "";
-		
-		switch(this) {
-		case AGUA:
-			res = "Agua";
-			break;
-		case LLANURA:
-			res = "Llanura";
-			break;
-		case BOSQUE:
-			res = "Bosque";
-			break;
-		case DESIERTO:
-			res = "Desierto";
-			break;
-		case MONTE:
-			res = "Monte";
-			break;
-		}
-		
-		return res;
+		return nombre;
 	}
 }

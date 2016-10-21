@@ -6,6 +6,9 @@ import juego.mapa.TipoCasilla;
 
 public class Paso1 extends Rasterizador {
 	public final static int TAM_PASO1 = 5;
+	
+	private static final int DELAY_GEN = 15;
+	
 	public final double PROB_ISLA = 1.25;
 		
 	public Paso1(Generador generador) {
@@ -56,7 +59,7 @@ public class Paso1 extends Rasterizador {
 			}
 			
 			try {
-				Thread.sleep(0);
+				Thread.sleep(DELAY_GEN);
 			} catch(Exception e) {
 			
 			}
