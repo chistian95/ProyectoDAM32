@@ -37,7 +37,7 @@ public class VistaMapaGen {
 				if(cas != null) {
 					g.setColor(cas.getTipo().getColor());
 				} else {
-					g.setColor(TipoCasilla.AGUA.getColor());
+					g.setColor(TipoCasilla.OCEANO.getColor());
 				}
 				g.fillRect(x*tam, y*tam, tam, tam);
 			}

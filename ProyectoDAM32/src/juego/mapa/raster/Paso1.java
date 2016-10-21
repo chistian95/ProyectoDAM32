@@ -39,7 +39,7 @@ public class Paso1 extends Rasterizador {
 				double rnd = Math.random()*100;
 				if(rnd <= PROB_ISLA) {
 					int i = (int) (Math.random()*3);				
-					TipoCasilla tipoRnd = TipoCasilla.AGUA;
+					TipoCasilla tipoRnd = TipoCasilla.OCEANO;
 					
 					switch(i) {
 					case 0:
@@ -67,22 +67,22 @@ public class Paso1 extends Rasterizador {
 		}
 		
 		for(int y=0; y<getCasillas().length; y++) {
-			getCasillas()[0][y].setTipo(TipoCasilla.AGUA);
-			getCasillas()[1][y].setTipo(TipoCasilla.AGUA);
-			getCasillas()[getCasillas().length-1][y].setTipo(TipoCasilla.AGUA);
-			getCasillas()[getCasillas().length-2][y].setTipo(TipoCasilla.AGUA);
+			getCasillas()[0][y].setTipo(TipoCasilla.OCEANO);
+			getCasillas()[1][y].setTipo(TipoCasilla.OCEANO);
+			getCasillas()[getCasillas().length-1][y].setTipo(TipoCasilla.OCEANO);
+			getCasillas()[getCasillas().length-2][y].setTipo(TipoCasilla.OCEANO);
 			
 			double rnd = Math.random()*100;
 			if(rnd < 25) {
-				getCasillas()[2][y].setTipo(TipoCasilla.AGUA);
+				getCasillas()[2][y].setTipo(TipoCasilla.OCEANO);
 			}
 			rnd = Math.random()*100;
 			if(rnd < 25) {
-				getCasillas()[getCasillas().length-3][y].setTipo(TipoCasilla.AGUA);
+				getCasillas()[getCasillas().length-3][y].setTipo(TipoCasilla.OCEANO);
 			}			
 			
 			try {
-				Thread.sleep(DELAY_GEN/10);
+				Thread.sleep(DELAY_GEN/2);
 			} catch(Exception e) {
 			
 			}
@@ -94,7 +94,7 @@ public class Paso1 extends Rasterizador {
 					getCasillas()[x][y].setTipo(TipoCasilla.HIELO);
 					continue;
 				}
-				if(getCasillas()[x][y].getTipo().equals(TipoCasilla.AGUA)) {
+				if(getCasillas()[x][y].getTipo().equals(TipoCasilla.OCEANO)) {
 					continue;
 				}
 				getCasillas()[x][y].setTipo(TipoCasilla.TUNDRA);
@@ -105,14 +105,14 @@ public class Paso1 extends Rasterizador {
 					getCasillas()[x][y].setTipo(TipoCasilla.HIELO);
 					continue;
 				}
-				if(getCasillas()[x][y].getTipo().equals(TipoCasilla.AGUA)) {
+				if(getCasillas()[x][y].getTipo().equals(TipoCasilla.OCEANO)) {
 					continue;
 				}
 				getCasillas()[x][y].setTipo(TipoCasilla.TUNDRA);
 			}
 			
 			try {
-				Thread.sleep(DELAY_GEN/10);
+				Thread.sleep(DELAY_GEN/2);
 			} catch(Exception e) {
 			
 			}

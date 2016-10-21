@@ -21,7 +21,7 @@ public class Seed extends Rasterizador {
 		
 		for(int y=0; y<getTam(); y++) {
 			for(int x=0; x<getTam(); x++) {
-				TipoCasilla tipo = TipoCasilla.AGUA;
+				TipoCasilla tipo = TipoCasilla.OCEANO;
 				
 				double rand = Math.random()*100;
 				

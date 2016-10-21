@@ -43,7 +43,7 @@ public class Paso2 extends Rasterizador {
 		for(int y=0; y<getCasillas().length; y++) {
 			for(int x=0; x<getCasillas().length; x++) {
 				Casilla cas = getCasillas()[x][y];
-				if(!cas.getTipo().equals(TipoCasilla.AGUA)) {	
+				if(!cas.getTipo().equals(TipoCasilla.OCEANO)) {	
 					double rnd = Math.random()*100;
 					if(rnd <= PROB_MONTE) {
 						cas.setTipo(TipoCasilla.MONTE);
@@ -73,10 +73,41 @@ public class Paso2 extends Rasterizador {
 				}
 			}
 		}
+		
+		for(int y=0; y<getCasillas().length; y++) {
+			for(int x=0; x<getCasillas().length; x++) {
+				Casilla cas = getCasillas()[x][y];
+				if(cas.getTipo().equals(TipoCasilla.OCEANO) && hayTierra(x, y)) {
+					cas.setTipo(TipoCasilla.MAR);
+				}
+			}
+			
+			try {
+				Thread.sleep(DELAY_GEN);
+			} catch(Exception e) {
+				
+			}
+		}
 	}
 	
-	private void generarRio(int x, int y, Direccion dir) {	
+	private boolean hayTierra(int x, int y) {
+		if(x-1 >= 0 && !getCasillas()[x-1][y].getTipo().isLiquido()) {
+			return true;
+		}
+		if(y-1 >= 0 && !getCasillas()[x][y-1].getTipo().isLiquido()) {
+			return true;
+		}
+		if(x+1 < getCasillas().length && !getCasillas()[x+1][y].getTipo().isLiquido()) {
+			return true;
+		}
+		if(y+1 < getCasillas().length && !getCasillas()[x][y+1].getTipo().isLiquido()) {
+			return true;
+		}
 		
+		return false;
+	}
+	
+	private void generarRio(int x, int y, Direccion dir) {			
 		Casilla[][] casillas = getCasillas();		
 		casillas[x][y].setTipo(TipoCasilla.RIO);
 		
@@ -123,7 +154,7 @@ public class Paso2 extends Rasterizador {
 		int rnd = (int) (Math.random()*posiciones.size());
 		Casilla cas = posiciones.get(rnd);
 		
-		if(cas.getTipo().equals(TipoCasilla.AGUA)) {
+		if(cas.getTipo().equals(TipoCasilla.OCEANO)) {
 			return;
 		}
 		
@@ -158,7 +189,7 @@ public class Paso2 extends Rasterizador {
 			return false;
 		}		
 		
-		if(!casillas[x][y].getTipo().isMoldeable() && !casillas[x][y].getTipo().equals(TipoCasilla.AGUA)) {
+		if(!casillas[x][y].getTipo().isMoldeable() && !casillas[x][y].getTipo().equals(TipoCasilla.OCEANO)) {
 			return false;
 		}
 		
