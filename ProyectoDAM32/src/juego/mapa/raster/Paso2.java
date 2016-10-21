@@ -24,7 +24,7 @@ public class Paso2 extends Rasterizador {
 
 	@Override
 	public void generar() {	
-		this.getGenerador().setFase(2);
+		getGenerador().setFase(2);
 		Casilla[][] paso1 = getGenerador().getPaso1().getCasillas();	
 		
 		for(int yPaso1=0; yPaso1<paso1.length; yPaso1++) {
@@ -88,6 +88,8 @@ public class Paso2 extends Rasterizador {
 				
 			}
 		}
+		
+		getGenerador().setFase(-1);
 	}
 	
 	private boolean hayTierra(int x, int y) {

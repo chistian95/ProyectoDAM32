@@ -1,22 +1,26 @@
 package juego.mapa;
 
+import juego.EstadoJuego;
 import juego.mapa.raster.Paso1;
 import juego.mapa.raster.Paso2;
 import juego.mapa.raster.Seed;
+import pantalla.Pantalla;
 
 public class Generador extends Thread {	
 	private Seed seed;
 	private Paso1 paso1;
 	private Paso2 paso2;
+	private Pantalla pantalla;
 	private int fase;
 	
-	public Generador() {
+	public Generador(Pantalla pantalla) {
+		this.pantalla = pantalla;
+		pantalla.setEstadoJuego(EstadoJuego.GENERANDO);
 		fase = -1;
 		start();
 	}
 	
 	public void run() {
-		long tStart = System.currentTimeMillis();
 		try {
 			seed = new Seed(this);
 			seed.join();
@@ -27,10 +31,8 @@ public class Generador extends Thread {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		long tFin = System.currentTimeMillis();
-		long tDelta = tFin - tStart;
-		double tiempo = tDelta / 1000.0;
-		System.out.println("Tiempo: "+tiempo+" s");
+
+		pantalla.setEstadoJuego(EstadoJuego.VISTA_MUNDO);		
 	}
 	
 	public Seed getSeed() {

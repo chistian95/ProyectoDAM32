@@ -29,6 +29,10 @@ public class VistaMapaGen {
 			break;
 		}
 		
+		if(seed == null) {
+			return;
+		}
+		
 		int tam = pantalla.WIDTH / seed.length;	
 		
 		for(int y=0; y<seed.length; y++) {
