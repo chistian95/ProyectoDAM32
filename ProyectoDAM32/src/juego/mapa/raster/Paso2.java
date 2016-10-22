@@ -105,6 +105,18 @@ public class Paso2 extends Rasterizador {
 		if(y+1 < getCasillas().length && !getCasillas()[x][y+1].getTipo().isLiquido()) {
 			return true;
 		}
+		if(y-1 >= 0 && x-1 >= 0 && !getCasillas()[x-1][y-1].getTipo().isLiquido()) {
+			return true;
+		}
+		if(y-1 >= 0 && x+1 < getCasillas().length && !getCasillas()[x+1][y-1].getTipo().isLiquido()) {
+			return true;
+		}
+		if(y+1 < getCasillas().length && x-1 >= 0 && !getCasillas()[x-1][y+1].getTipo().isLiquido()) {
+			return true;
+		}
+		if(y+1 < getCasillas().length && x+1 < getCasillas().length && !getCasillas()[x+1][y+1].getTipo().isLiquido()) {
+			return true;
+		}
 		
 		return false;
 	}

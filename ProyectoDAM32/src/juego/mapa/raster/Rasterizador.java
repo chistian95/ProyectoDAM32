@@ -41,10 +41,29 @@ public abstract class Rasterizador extends Thread {
 		Casilla cas_right = cas;
 		if(x+1 < casillas.length) {
 			cas_right = casillas[x+1][y];
-		}		
+		}
+		Casilla cas_up_left = cas;
+		if(y-1 >= 0 && x-1 >= 0) {
+			cas_up_left = casillas[x-1][y-1];
+		}
+		Casilla cas_up_right = cas;
+		if(y-1 >= 0 && x+1 < casillas.length) {
+			cas_up_right = casillas[x+1][y-1];
+		}
+		Casilla cas_down_left = cas;
+		if(y+1 < casillas.length && x-1 >= 0) {
+			cas_down_left = casillas[x-1][y+1];
+		}
+		Casilla cas_down_right = cas;
+		if(y+1 < casillas.length && x+1 < casillas.length) {
+			cas_down_right = casillas[x+1][y+1];
+		}
 		
 		boolean iguales = false;
-		if(cas.getTipo().equals(cas_up.getTipo()) && cas.getTipo().equals(cas_down.getTipo()) && cas.getTipo().equals(cas_left.getTipo()) && cas.getTipo().equals(cas_right.getTipo())) {
+		if(cas.getTipo().equals(cas_up.getTipo()) && cas.getTipo().equals(cas_down.getTipo())
+				&& cas.getTipo().equals(cas_left.getTipo()) && cas.getTipo().equals(cas_right.getTipo())
+				&& cas.getTipo().equals(cas_up_left.getTipo()) && cas.getTipo().equals(cas_up_right.getTipo())
+				&& cas.getTipo().equals(cas_down_left.getTipo()) && cas.getTipo().equals(cas_down_right.getTipo())) {
 			iguales = true;
 		}
 		
@@ -57,6 +76,11 @@ public abstract class Rasterizador extends Thread {
 			sumarTipos(tipos, cas_down);
 			sumarTipos(tipos, cas_left);
 			sumarTipos(tipos, cas_right);
+			
+			sumarTipos(tipos, cas_up_left);
+			sumarTipos(tipos, cas_up_right);
+			sumarTipos(tipos, cas_down_left);
+			sumarTipos(tipos, cas_down_right);
 		}		
 		
 		if(!iguales) {
