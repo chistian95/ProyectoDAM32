@@ -1,5 +1,6 @@
 package pantalla;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
@@ -8,7 +9,8 @@ import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
 public class Camara {
-	private static final double dZoom = 5;
+	private static final int ZOOM_TEXTURAS = 100;
+	private static final double DELTA_ZOOM = 5;
 	
 	private Pantalla pantalla;
 	private int x = -10;
@@ -48,17 +50,6 @@ public class Camara {
 					xPintar = casillas.length + xPintar;
 				}
 				
-				/*if(xPintar >= casillas.length) {
-					this.x = casillas.length - (int) (zoom/2);
-					pintar(g);
-					return;
-				}								
-				if(xPintar < 0) {
-					this.x = (int) (zoom/2); 
-					pintar(g);
-					return;
-				}*/
-				
 				if(yPintar >= casillas[0].length) {
 					this.y = casillas[0].length - (int) (zoom/2);
 					pintar(g);
@@ -70,12 +61,29 @@ public class Camara {
 					return;
 				}
 				Casilla cas = casillas[xPintar][yPintar];
-				if(cas != null) {
-					g.setColor(cas.getTipo().getColor());
-				} else {
+				if(cas == null) {
 					g.setColor(TipoCasilla.OCEANO.getColor());
-				}
-				g.fillRect((int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
+					g.fillRect((int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
+				} else if(zoom > ZOOM_TEXTURAS) {
+					g.setColor(cas.getTipo().getColor());
+					g.fillRect((int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
+				} else {					
+					g.drawImage(cas.getTipo().getTextura(), (int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam), null);
+									
+					int dZoom = (int) (zoom-ZOOM_TEXTURAS/2)*2;
+					int alfa = (int) (255*(dZoom/100.0));
+					if(alfa > 255) {
+						alfa = 255;
+					}
+					if(alfa < 0) {
+						alfa = 0;
+					}
+					
+					Color color = cas.getTipo().getColor();
+					Color colorTrans = new Color(color.getRed(), color.getGreen(), color.getBlue(), alfa);
+					g.setColor(colorTrans);
+					g.fillRect((int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
+				}				
 			}
 		}
 		moverCamara();
@@ -145,12 +153,12 @@ public class Camara {
 	
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if(e.getWheelRotation() < 0) {
-			zoom -= dZoom;
+			zoom -= DELTA_ZOOM;
 			if(zoom < 1) {
 				zoom = 1;
 			}
 		} else {
-			zoom += dZoom;
+			zoom += DELTA_ZOOM;
 			if(zoom >= pantalla.getGenerador().getPaso2().getCasillas().length) {
 				zoom = pantalla.getGenerador().getPaso2().getCasillas().length - 1;
 			}
