@@ -9,12 +9,13 @@ import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
 public class Camara {
-	private static final int ZOOM_TEXTURAS = 100;
+	private static final int ZOOM_TEXTURAS = 50;
 	private static final double DELTA_ZOOM = 5;
+	private static final double VEL_CAMARA = 0.012;
 	
 	private Pantalla pantalla;
-	private int x = -10;
-	private int y;
+	private double x;
+	private double y;
 	private double zoom;
 	
 	private boolean mover_izq;
@@ -90,28 +91,35 @@ public class Camara {
 	}
 	
 	private void moverCamara() {
+		double dMov = VEL_CAMARA*zoom;
+		if(dMov < 1) {
+			dMov = 1;
+		}
+		
+		System.out.println(dMov);
+		
 		if(mover_izq) {
-			x--;
+			x -= dMov;
 			if(x < 0) {
-				x = pantalla.getGenerador().getPaso2().getCasillas().length;
+				x += pantalla.getGenerador().getPaso2().getCasillas().length;
 			}
 		}
 		if(mover_drc) {
-			x++;
+			x += dMov;
 			if(x >= pantalla.getGenerador().getPaso2().getCasillas().length) {
-				x = 0;
+				x -= pantalla.getGenerador().getPaso2().getCasillas().length;
 			}
 		}
 		if(mover_arriba) {
-			y--;
+			y -= dMov;
 			if(y-zoom/2 < 0) {
-				y++;
+				y += dMov;
 			}
 		}
 		if(mover_abajo) {
-			y++;
+			y += dMov;
 			if(y+zoom/2 >= pantalla.getGenerador().getPaso2().getCasillas()[0].length) {
-				y--;
+				y -= dMov;
 			}
 		}
 	}
