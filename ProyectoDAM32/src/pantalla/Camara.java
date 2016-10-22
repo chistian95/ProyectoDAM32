@@ -28,19 +28,37 @@ public class Camara {
 	}
 	
 	public void pintar(Graphics2D g) {
-		Casilla[][] casillas = pantalla.getGenerador().getPaso2().getCasillas();		
+		Casilla[][] casillas = pantalla.getGenerador().getPaso2().getCasillas();	
+		
+		int xIni = (int) (x-zoom/2);
+		int yIni = (int) (y-zoom/2);
+		
 		double xTam = pantalla.WIDTH / zoom;
 		double yTam = pantalla.HEIGHT / zoom;
 		
 		for(int y=0; y<zoom; y++) {
 			for(int x=0; x<zoom; x++) {
-				if(this.x+x >= casillas.length || this.y+y >= casillas[0].length) {
-					continue;
+				if(x+xIni >= casillas.length) {
+					this.x = casillas.length - (int) (zoom/2);
+					pintar(g);
+					return;
 				}
-				if(this.x+x < 0 || this.y+y < 0) {
-					continue;
+				if(y+yIni >= casillas[0].length) {
+					this.y = casillas[0].length - (int) (zoom/2);
+					pintar(g);
+					return;
+				}				
+				if(x+xIni < 0) {
+					this.x = (int) (zoom/2); 
+					pintar(g);
+					return;
 				}
-				Casilla cas = casillas[this.x+x][this.y+y];
+				if(y+yIni < 0) {
+					this.y= (int) (zoom/2);
+					pintar(g);
+					return;
+				}
+				Casilla cas = casillas[x+xIni][y+yIni];
 				if(cas != null) {
 					g.setColor(cas.getTipo().getColor());
 				} else {
@@ -55,25 +73,25 @@ public class Camara {
 	private void moverCamara() {
 		if(mover_izq) {
 			x--;
-			if(x < 0) {
-				x = 0;
+			if(x-zoom/2 < 0) {
+				x++;
 			}
 		}
 		if(mover_drc) {
 			x++;
-			if(x+zoom >= pantalla.getGenerador().getPaso2().getCasillas().length) {
+			if(x+zoom/2 >= pantalla.getGenerador().getPaso2().getCasillas().length) {
 				x--;
 			}
 		}
 		if(mover_arriba) {
 			y--;
-			if(y < 0) {
-				y = 0;
+			if(y-zoom/2 < 0) {
+				y++;
 			}
 		}
 		if(mover_abajo) {
 			y++;
-			if(y+zoom >= pantalla.getGenerador().getPaso2().getCasillas()[0].length) {
+			if(y+zoom/2 >= pantalla.getGenerador().getPaso2().getCasillas()[0].length) {
 				y--;
 			}
 		}

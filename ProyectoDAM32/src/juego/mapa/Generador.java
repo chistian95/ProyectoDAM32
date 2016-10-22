@@ -28,6 +28,11 @@ public class Generador extends Thread {
 			paso1.join();
 			paso2 = new Paso2(this);
 			paso2.join();
+			
+			Casilla[][] casillas = paso2.getCasillas();
+			int x = casillas.length/2;
+			int y = casillas[0].length/2;
+			pantalla.getRender().getCamara().setPos(x, y);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
