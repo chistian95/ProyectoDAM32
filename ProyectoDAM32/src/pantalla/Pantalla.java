@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import juego.EstadoJuego;
-import juego.mapa.Generador;
+import juego.Juego;
 
 public class Pantalla extends JFrame implements KeyListener, MouseWheelListener {	
 	private static final long serialVersionUID = 1L;	
@@ -25,15 +25,11 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 	public final int WIDTH = 720;
 	public final int HEIGHT = 720;
 	
-	private Renderizador render;
-	private Generador generador;
 	private BufferedImage bf;
-	private EstadoJuego estadoJuego;
+	private Juego juego;
 	
-	public Pantalla() {
-		estadoJuego = EstadoJuego.PRECARGA; 
-		generador = new Generador(this);
-		render = new Renderizador(this);
+	public Pantalla(Juego juego) {
+		this.juego = juego;
 		bf = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		
 		setUndecorated(true);
@@ -56,19 +52,23 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 	
 	public void paint(Graphics g) {
 		Graphics2D bff = (Graphics2D) bf.getGraphics();
+		EstadoJuego estadoJuego = juego.getEstadoJuego();
+		Renderizador render = juego.getRender();
 		bff.setColor(Color.WHITE);
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		switch(estadoJuego) {
-		case GENERANDO:
-			render.getVistaMapaGen().pintar(bff);
-			break;
-		case VISTA_MUNDO:
-			render.getCamara().pintar(bff);
-			break;
-		case PRECARGA:
-			break;
-		}
+		if(render != null) {
+			switch(estadoJuego) {
+			case GENERANDO:
+				render.getVistaMapaGen().pintar(bff);
+				break;
+			case VISTA_MUNDO:
+				render.getCamara().pintar(bff);
+				break;
+			case PRECARGA:
+				break;
+			}
+		}	
 		
 		g.drawImage(bf, 0, 0, null);
 	}
@@ -84,24 +84,14 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 		timer.start();
 	}
 	
-	public EstadoJuego getEstadoJuego() {
-		return estadoJuego;
-	}
-	
-	public void setEstadoJuego(EstadoJuego estadoJuego) {
-		this.estadoJuego = estadoJuego;
-	}
-	
-	public Renderizador getRender() {
-		return render;
-	}
-	
-	public Generador getGenerador() {
-		return generador;
+	public Juego getJuego() {
+		return juego;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		EstadoJuego estadoJuego = juego.getEstadoJuego();
+		Renderizador render = juego.getRender();
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		}
@@ -115,6 +105,8 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		EstadoJuego estadoJuego = juego.getEstadoJuego();
+		Renderizador render = juego.getRender();
 		switch(estadoJuego) {
 		case VISTA_MUNDO:
 			render.getCamara().keyReleased(e);
@@ -129,6 +121,8 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		EstadoJuego estadoJuego = juego.getEstadoJuego();
+		Renderizador render = juego.getRender();
 		switch(estadoJuego) {
 		case VISTA_MUNDO:
 			render.getCamara().mouseWheelMoved(e);

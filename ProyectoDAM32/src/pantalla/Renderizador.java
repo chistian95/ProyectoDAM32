@@ -1,12 +1,14 @@
 package pantalla;
 
+import juego.Juego;
+
 public class Renderizador {	
 	private VistaMapaGen vistaMapaGen;
 	private Camara camara;
 	
-	public Renderizador(Pantalla pantalla) {
-		vistaMapaGen = new VistaMapaGen(pantalla);
-		camara = new Camara(pantalla);
+	public Renderizador(Juego juego) {
+		vistaMapaGen = new VistaMapaGen(juego);
+		camara = new Camara(juego);
 	}
 	
 	public VistaMapaGen getVistaMapaGen() {

@@ -2,6 +2,7 @@ package pantalla;
 
 import java.awt.Graphics2D;
 
+import juego.Juego;
 import juego.mapa.Casilla;
 import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
@@ -10,9 +11,9 @@ public class VistaMapaGen {
 	private Pantalla pantalla;
 	private Generador generador;
 	
-	public VistaMapaGen(Pantalla pantalla) {
-		this.pantalla = pantalla;
-		this.generador = pantalla.getGenerador();
+	public VistaMapaGen(Juego juego) {
+		this.pantalla = juego.getPantalla();
+		this.generador = juego.getGenerador();
 	}
 	
 	public void pintar(Graphics2D g) {

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 
+import juego.Juego;
 import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
@@ -13,7 +14,7 @@ public class Camara {
 	private static final double DELTA_ZOOM = 5;
 	private static final double VEL_CAMARA = 0.012;
 	
-	private Pantalla pantalla;
+	private Juego juego;
 	private double x;
 	private double y;
 	private double zoom;
@@ -23,15 +24,18 @@ public class Camara {
 	private boolean mover_arriba;
 	private boolean mover_abajo;
 	
-	public Camara(Pantalla pantalla) {
-		this.pantalla = pantalla;		
+	public Camara(Juego juego) {
+		this.juego = juego;		
 		this.zoom = 240.0;		
 		this.x = 0;
 		this.y = 0;
+		
+		precargarTexturas();
 	}
 	
 	public void pintar(Graphics2D g) {
-		Casilla[][] casillas = pantalla.getGenerador().getPaso2().getCasillas();	
+		Pantalla pantalla = juego.getPantalla();
+		Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();	
 		
 		int xIni = (int) (x-zoom/2);
 		int yIni = (int) (y-zoom/2);
@@ -71,7 +75,7 @@ public class Camara {
 				} else {					
 					g.drawImage(cas.getTipo().getTextura(), (int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam), null);
 									
-					int dZoom = (int) (zoom-ZOOM_TEXTURAS/2)*2;
+					int dZoom = (int) (zoom-ZOOM_TEXTURAS/2)*4;
 					int alfa = (int) (255*(dZoom/100.0));
 					if(alfa > 255) {
 						alfa = 255;
@@ -96,18 +100,16 @@ public class Camara {
 			dMov = 1;
 		}
 		
-		System.out.println(dMov);
-		
 		if(mover_izq) {
 			x -= dMov;
 			if(x < 0) {
-				x += pantalla.getGenerador().getPaso2().getCasillas().length;
+				x += juego.getGenerador().getPaso2().getCasillas().length;
 			}
 		}
 		if(mover_drc) {
 			x += dMov;
-			if(x >= pantalla.getGenerador().getPaso2().getCasillas().length) {
-				x -= pantalla.getGenerador().getPaso2().getCasillas().length;
+			if(x >= juego.getGenerador().getPaso2().getCasillas().length) {
+				x -= juego.getGenerador().getPaso2().getCasillas().length;
 			}
 		}
 		if(mover_arriba) {
@@ -118,7 +120,7 @@ public class Camara {
 		}
 		if(mover_abajo) {
 			y += dMov;
-			if(y+zoom/2 >= pantalla.getGenerador().getPaso2().getCasillas()[0].length) {
+			if(y+zoom/2 >= juego.getGenerador().getPaso2().getCasillas()[0].length) {
 				y -= dMov;
 			}
 		}
@@ -167,9 +169,21 @@ public class Camara {
 			}
 		} else {
 			zoom += DELTA_ZOOM;
-			if(zoom >= pantalla.getGenerador().getPaso2().getCasillas().length) {
-				zoom = pantalla.getGenerador().getPaso2().getCasillas().length - 1;
+			if(zoom >= juego.getGenerador().getPaso2().getCasillas().length) {
+				zoom = juego.getGenerador().getPaso2().getCasillas().length - 1;
 			}
 		}
+	}
+	
+	public void precargarTexturas() {
+		Thread carga = new Thread() {
+			public void run() {
+				for(TipoCasilla tipo : TipoCasilla.values()) {
+					tipo.getTextura();
+				}
+			}
+		};
+		
+		carga.start();
 	}
 }

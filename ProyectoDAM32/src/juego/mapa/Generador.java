@@ -1,21 +1,21 @@
 package juego.mapa;
 
 import juego.EstadoJuego;
+import juego.Juego;
 import juego.mapa.raster.Paso1;
 import juego.mapa.raster.Paso2;
 import juego.mapa.raster.Seed;
-import pantalla.Pantalla;
 
 public class Generador extends Thread {	
 	private Seed seed;
 	private Paso1 paso1;
 	private Paso2 paso2;
-	private Pantalla pantalla;
+	private Juego juego;
 	private int fase;
 	
-	public Generador(Pantalla pantalla) {
-		this.pantalla = pantalla;
-		pantalla.setEstadoJuego(EstadoJuego.GENERANDO);
+	public Generador(Juego juego) {
+		this.juego = juego;
+		juego.setEstadoJuego(EstadoJuego.GENERANDO);
 		fase = -1;
 		start();
 	}
@@ -32,12 +32,12 @@ public class Generador extends Thread {
 			Casilla[][] casillas = paso2.getCasillas();
 			int x = casillas.length/2;
 			int y = casillas[0].length/2;
-			pantalla.getRender().getCamara().setPos(x, y);
+			juego.getRender().getCamara().setPos(x, y);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 
-		pantalla.setEstadoJuego(EstadoJuego.VISTA_MUNDO);		
+		juego.setEstadoJuego(EstadoJuego.VISTA_MUNDO);		
 	}
 	
 	public Seed getSeed() {
