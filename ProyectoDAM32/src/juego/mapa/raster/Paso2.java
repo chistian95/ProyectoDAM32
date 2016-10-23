@@ -24,7 +24,9 @@ public class Paso2 extends Rasterizador {
 
 	@Override
 	public void generar() {	
-		getGenerador().setFase(2);
+		this.getGenerador().setFase(2);
+		this.setTextoGen("Generando mundo...");
+		
 		Casilla[][] paso1 = getGenerador().getPaso1().getCasillas();	
 		
 		for(int yPaso1=0; yPaso1<paso1.length; yPaso1++) {
@@ -60,6 +62,8 @@ public class Paso2 extends Rasterizador {
 			}
 		}
 
+		this.setTextoGen("Generando rios...");
+		
 		for(int y=0; y<getCasillas().length; y++) {
 			for(int x=0; x<getCasillas().length; x++) {
 				Casilla cas = getCasillas()[x][y];
@@ -73,6 +77,8 @@ public class Paso2 extends Rasterizador {
 				}
 			}
 		}
+		
+		this.setTextoGen("Generando costa...");
 		
 		for(int y=0; y<getCasillas().length; y++) {
 			for(int x=0; x<getCasillas().length; x++) {

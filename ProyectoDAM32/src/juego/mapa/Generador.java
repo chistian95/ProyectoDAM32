@@ -36,8 +36,6 @@ public class Generador extends Thread {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
-		juego.setEstadoJuego(EstadoJuego.VISTA_MUNDO);		
 	}
 	
 	public Seed getSeed() {

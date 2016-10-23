@@ -1,5 +1,6 @@
 package juego;
 
+import juego.jugador.Jugador;
 import juego.mapa.Generador;
 import pantalla.Pantalla;
 import pantalla.Renderizador;
@@ -8,6 +9,7 @@ public class Juego extends Thread {
 	private Pantalla pantalla;
 	private Renderizador render;
 	private Generador generador;
+	private Jugador jugador;
 	private EstadoJuego estadoJuego;
 	
 	public Juego() {
@@ -19,6 +21,15 @@ public class Juego extends Thread {
 		pantalla = new Pantalla(this);
 		generador = new Generador(this);
 		render = new Renderizador(this);
+		
+		try {
+			generador.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		estadoJuego = EstadoJuego.VISTA_MUNDO;
+		jugador = new Jugador(this);
 	}
 	
 	public EstadoJuego getEstadoJuego() {
@@ -39,5 +50,9 @@ public class Juego extends Thread {
 	
 	public Generador getGenerador() {
 		return generador;
+	}
+	
+	public Jugador getJugador() {
+		return jugador;
 	}
 }

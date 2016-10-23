@@ -9,11 +9,13 @@ import juego.mapa.TipoCasilla;
 public abstract class Rasterizador extends Thread {
 	private Casilla[][] casillas;
 	private Generador generador;
+	private String textoGen;
 	private int tam;
 	
 	public Rasterizador(Generador generador, int tam) {
 		this.generador = generador;
 		this.tam = tam;
+		textoGen = "Generando mundo...";
 		casillas = new Casilla[tam][tam];
 		start();
 	}
@@ -122,6 +124,14 @@ public abstract class Rasterizador extends Thread {
 	
 	public Generador getGenerador() {
 		return generador;
+	}
+	
+	public String getTextoGen() {
+		return textoGen;
+	}
+	
+	public void setTextoGen(String textoGen) {
+		this.textoGen = textoGen;
 	}
 	
 	public int getTam() {

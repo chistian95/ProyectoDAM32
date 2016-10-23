@@ -18,6 +18,7 @@ import javax.swing.Timer;
 
 import juego.EstadoJuego;
 import juego.Juego;
+import juego.jugador.Jugador;
 
 public class Pantalla extends JFrame implements KeyListener, MouseWheelListener {	
 	private static final long serialVersionUID = 1L;	
@@ -54,6 +55,7 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 		Graphics2D bff = (Graphics2D) bf.getGraphics();
 		EstadoJuego estadoJuego = juego.getEstadoJuego();
 		Renderizador render = juego.getRender();
+		Jugador jugador = juego.getJugador();
 		bff.setColor(Color.WHITE);
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		
@@ -69,6 +71,13 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 				break;
 			}
 		}	
+		
+		if(jugador != null) {
+			switch(jugador.getEstadoJugador()) {
+			case ELEGIR_NACION:
+				jugador.pintar(bff);
+			}
+		}
 		
 		g.drawImage(bf, 0, 0, null);
 	}

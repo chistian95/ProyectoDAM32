@@ -19,6 +19,7 @@ public class Paso1 extends Rasterizador {
 	@Override
 	public void generar() {
 		this.getGenerador().setFase(1);
+		this.setTextoGen("Generando mundo...");
 		Casilla[][] seed = getGenerador().getSeed().getCasillas();
 		
 		for(int ySeed=0; ySeed<seed.length; ySeed++) {
@@ -66,6 +67,8 @@ public class Paso1 extends Rasterizador {
 			}
 		}
 		
+		this.setTextoGen("Limpiando bordes...");
+		
 		for(int y=0; y<getCasillas().length; y++) {
 			getCasillas()[0][y].setTipo(TipoCasilla.OCEANO);
 			double rnd = Math.random()*100;
@@ -93,6 +96,8 @@ public class Paso1 extends Rasterizador {
 			
 			}
 		}
+		
+		this.setTextoGen("Generando polos...");
 		
 		for(int x=0; x<getCasillas().length; x++) {
 			for(int y=0; y<TAM_HIELO; y++) {

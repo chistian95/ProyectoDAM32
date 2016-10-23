@@ -18,15 +18,19 @@ public class VistaMapaGen {
 	
 	public void pintar(Graphics2D g) {
 		Casilla[][] seed = null;
+		String textoGen = "";
 		switch(generador.getFase()) {
 		case 0:
 			seed = generador.getSeed().getCasillas();
+			textoGen = generador.getSeed().getTextoGen();
 			break;
 		case 1:
 			seed = generador.getPaso1().getCasillas();
+			textoGen = generador.getPaso1().getTextoGen();
 			break;
 		case 2:
 			seed = generador.getPaso2().getCasillas();
+			textoGen = generador.getPaso2().getTextoGen();
 			break;
 		}
 		
@@ -47,5 +51,7 @@ public class VistaMapaGen {
 				g.fillRect(x*tam, y*tam, tam, tam);
 			}
 		}
+		
+		Ventanas.pintarVentanaInferior(g, pantalla, textoGen);
 	}
 }

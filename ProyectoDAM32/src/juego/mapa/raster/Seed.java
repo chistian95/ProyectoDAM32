@@ -7,8 +7,7 @@ import juego.mapa.TipoCasilla;
 public class Seed extends Rasterizador {
 	public static final int TAM_SEED = 12;
 	
-	private static final int DELAY_GEN = 50; //50
-	
+	private static final int DELAY_GEN = 50; //50	
 	private static final double PROB_AGUA = 50;
 	
 	public Seed(Generador generador) {
@@ -17,8 +16,8 @@ public class Seed extends Rasterizador {
 	
 	@Override
 	public void generar() {
-		this.getGenerador().setFase(0);		
-		
+		getGenerador().setFase(0);		
+		setTextoGen("Generando semilla...");
 		for(int y=0; y<getTam(); y++) {
 			for(int x=0; x<getTam(); x++) {
 				TipoCasilla tipo = TipoCasilla.OCEANO;
