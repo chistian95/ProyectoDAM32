@@ -1,11 +1,14 @@
 package pantalla;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import juego.Juego;
 import juego.mapa.Casilla;
 import juego.mapa.Generador;
 import juego.mapa.TipoCasilla;
+import pantalla.pintar.TextoPintable;
 
 public class VistaMapaGen {
 	private Pantalla pantalla;
@@ -52,6 +55,8 @@ public class VistaMapaGen {
 			}
 		}
 		
-		Ventanas.pintarVentanaInferior(g, pantalla, textoGen);
+		List<TextoPintable> lista = new ArrayList<TextoPintable>();
+		lista.add(new TextoPintable(textoGen));
+		Ventanas.pintarVentanaInferior(g, pantalla, lista);
 	}
 }

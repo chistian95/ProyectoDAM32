@@ -39,7 +39,6 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
         setVisible(true);
         
         addKeyListener(this);
-        addMouseWheelListener(this);
         
         addWindowListener(new WindowAdapter() {
         	public void windowClosing(WindowEvent e) {
@@ -99,29 +98,13 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		EstadoJuego estadoJuego = juego.getEstadoJuego();
-		Renderizador render = juego.getRender();
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
-		}
-		switch(estadoJuego) {
-		case VISTA_MUNDO:
-			render.getCamara().keyPressed(e);
-			break;
-		default:
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		EstadoJuego estadoJuego = juego.getEstadoJuego();
-		Renderizador render = juego.getRender();
-		switch(estadoJuego) {
-		case VISTA_MUNDO:
-			render.getCamara().keyReleased(e);
-			break;
-		default:
-		}
 	}
 
 	@Override
@@ -130,13 +113,5 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		EstadoJuego estadoJuego = juego.getEstadoJuego();
-		Renderizador render = juego.getRender();
-		switch(estadoJuego) {
-		case VISTA_MUNDO:
-			render.getCamara().mouseWheelMoved(e);
-			break;
-		default:
-		}
 	}
 }

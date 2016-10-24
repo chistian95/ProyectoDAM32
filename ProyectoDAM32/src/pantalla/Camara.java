@@ -3,13 +3,15 @@ package pantalla;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import juego.Juego;
 import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
-public class Camara {
+public class Camara implements KeyListener, MouseWheelListener {
 	private static final int ZOOM_TEXTURAS = 50;
 	private static final double DELTA_ZOOM = 5;
 	private static final double VEL_CAMARA = 0.012;
@@ -29,6 +31,9 @@ public class Camara {
 		this.zoom = 240.0;		
 		this.x = 0;
 		this.y = 0;
+		
+		juego.getPantalla().addKeyListener(this);
+		juego.getPantalla().addMouseWheelListener(this);
 		
 		precargarTexturas();
 	}
@@ -131,6 +136,7 @@ public class Camara {
 		this.y = y;
 	}
 	
+	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_A) {
 			mover_izq = true;
@@ -146,6 +152,7 @@ public class Camara {
 		}
 	}
 	
+	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_A) {
 			mover_izq = false;
@@ -161,7 +168,15 @@ public class Camara {
 		}
 	}
 	
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+	
+	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		if(juego.getGenerador().getPaso2() == null) {
+			return;
+		}
 		if(e.getWheelRotation() < 0) {
 			zoom -= DELTA_ZOOM;
 			if(zoom < 1) {
@@ -186,4 +201,6 @@ public class Camara {
 		
 		carga.start();
 	}
+
+	
 }
