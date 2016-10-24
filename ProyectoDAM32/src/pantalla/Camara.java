@@ -201,6 +201,18 @@ public class Camara implements KeyListener, MouseWheelListener {
 		
 		carga.start();
 	}
-
 	
+	public double getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(double zoom) {
+		if(zoom < 1) {
+			zoom = 1;
+		}
+		if(zoom >= juego.getGenerador().getPaso2().getCasillas().length) {
+			zoom = juego.getGenerador().getPaso2().getCasillas().length - 1;
+		}
+		this.zoom = zoom;
+	}
 }

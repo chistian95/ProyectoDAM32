@@ -1,7 +1,8 @@
 package juego.jugador;
 
 public enum EstadoJugador {
-	ELEGIR_NACION(0, "Elegir Nacion");
+	ELEGIR_NACION(0, "Elegir Nación"),
+	ANIMACION_NACION(1, "Animación Nación");
 	
 	private int estado;
 	private String nombre;

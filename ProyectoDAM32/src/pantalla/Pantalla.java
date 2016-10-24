@@ -75,6 +75,8 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 			switch(jugador.getEstadoJugador()) {
 			case ELEGIR_NACION:
 				jugador.pintar(bff);
+				break;
+			default:
 			}
 		}
 		

@@ -21,6 +21,7 @@ import pantalla.Ventanas;
 public class NacionPintable extends JComponent implements Pintable, MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 	
+	private Pantalla pantalla;
 	private Nacion nacion;
 	private int x;
 	private int y;
@@ -29,6 +30,7 @@ public class NacionPintable extends JComponent implements Pintable, MouseListene
 	private boolean dentro;
 	
 	public NacionPintable(Pantalla pantalla, Nacion nacion) {
+		this.pantalla = pantalla;
 		this.nacion = nacion;
 		x = 0;
 		y = 0;
@@ -113,7 +115,7 @@ public class NacionPintable extends JComponent implements Pintable, MouseListene
 	public void mouseClicked(MouseEvent e) {
 		Rectangle rec = new Rectangle(x, y, tamX, tamY);
 		if(rec.contains(e.getX(), e.getY())) {
-			System.out.println(nacion.getNombre());
+			pantalla.getJuego().getJugador().comenzarPartida(nacion);
 		}
 	}
 

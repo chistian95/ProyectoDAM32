@@ -28,6 +28,11 @@ public class Jugador {
 		Ventanas.pintarVentanaPrincipal(g, juego.getPantalla(), listaNaciones);
 	}
 	
+	public void comenzarPartida(Nacion nacion) {
+		estadoJugador = EstadoJugador.ANIMACION_NACION;
+		new AnimacionNacion(getJuego());
+	}
+	
 	public Juego getJuego() {
 		return juego;
 	}
