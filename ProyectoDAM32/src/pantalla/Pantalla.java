@@ -18,7 +18,7 @@ import javax.swing.Timer;
 
 import juego.EstadoJuego;
 import juego.Juego;
-import juego.jugador.Jugador;
+import juego.jugador.JugadorHumano;
 
 public class Pantalla extends JFrame implements KeyListener, MouseWheelListener {	
 	private static final long serialVersionUID = 1L;	
@@ -54,7 +54,7 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 		Graphics2D bff = (Graphics2D) bf.getGraphics();
 		EstadoJuego estadoJuego = juego.getEstadoJuego();
 		Renderizador render = juego.getRender();
-		Jugador jugador = juego.getJugador();
+		JugadorHumano jugador = juego.getJugador();
 		bff.setColor(Color.WHITE);
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		

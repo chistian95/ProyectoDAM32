@@ -1,56 +1,66 @@
 package juego.jugador;
 
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import juego.Juego;
 import juego.Nacion;
-import pantalla.Ventanas;
-import pantalla.pintar.NacionPintable;
+import juego.mapa.Casilla;
 
 public class Jugador {
+	private Nacion nacion;
 	private Juego juego;
-	private List<NacionPintable> listaNaciones;
-	private EstadoJugador estadoJugador;
+	private List<Ciudad> ciudades;
+	private boolean IA;
 	
-	public Jugador(Juego juego) {
+	public Jugador(Juego juego, Nacion nacion) {
 		this.juego = juego;
-		estadoJugador = EstadoJugador.ELEGIR_NACION;
-		
-		listaNaciones = new ArrayList<NacionPintable>();
-		for(Nacion nacion : Nacion.values()) {
-			listaNaciones.add(new NacionPintable(juego.getPantalla(), nacion));
+		this.nacion = nacion;
+		ciudades = new ArrayList<Ciudad>();
+		IA = false;
+	}
+	
+	public void ponerEnMundo() {
+		Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();
+		while(true) {
+			int x = (int) (Math.random()*casillas.length);
+			int y = (int) (Math.random()*casillas[0].length);
+			
+			if(casillas[x][y].getTipo().isMoldeable()) {
+				Ciudad c = new Ciudad(this, x, y);
+				c.setCapital(true);
+				ciudades.add(c);
+				break;
+			}
 		}
 	}
 	
-	public void pintar(Graphics2D g) {		
-		Ventanas.pintarVentanaPrincipal(g, juego.getPantalla(), listaNaciones);
-	}
-	
-	public void comenzarPartida(Nacion nacion) {
-		estadoJugador = EstadoJugador.ANIMACION_NACION;
-		for(NacionPintable np : listaNaciones) {
-			juego.getPantalla().removeMouseListener(np);
-			juego.getPantalla().removeMouseMotionListener(np);
+	public Ciudad getCapital() {
+		for(Ciudad c : ciudades) {
+			if(c.isCapital()) {
+				return c;
+			}
 		}
-		listaNaciones.clear();
-		new AnimacionNacion(getJuego());
+		return null;
 	}
 	
 	public Juego getJuego() {
 		return juego;
 	}
 	
-	public List<NacionPintable> getListaNaciones() {
-		return listaNaciones;
+	public Nacion getNacion() {
+		return nacion;
 	}
 	
-	public EstadoJugador getEstadoJugador() {
-		return estadoJugador;
+	public void setNacion(Nacion nacion) {
+		this.nacion = nacion;
 	}
 	
-	public void setEstadoJugador(EstadoJugador estadoJugador) {
-		this.estadoJugador = estadoJugador;
+	public boolean isIA() {
+		return IA;
+	}
+	
+	public void setIA(boolean IA) {
+		this.IA = IA;
 	}
 }
