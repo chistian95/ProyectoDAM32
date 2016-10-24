@@ -149,4 +149,7 @@ public class NacionPintable extends JComponent implements Pintable, MouseListene
 		}
 	}
 
+	public Pantalla getPantalla() {
+		return pantalla;
+	}
 }

@@ -30,6 +30,11 @@ public class Jugador {
 	
 	public void comenzarPartida(Nacion nacion) {
 		estadoJugador = EstadoJugador.ANIMACION_NACION;
+		for(NacionPintable np : listaNaciones) {
+			juego.getPantalla().removeMouseListener(np);
+			juego.getPantalla().removeMouseMotionListener(np);
+		}
+		listaNaciones.clear();
 		new AnimacionNacion(getJuego());
 	}
 	

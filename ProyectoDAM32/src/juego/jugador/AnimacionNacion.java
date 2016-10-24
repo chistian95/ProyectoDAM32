@@ -24,15 +24,15 @@ public class AnimacionNacion extends Thread {
 				animar();   
 			}
 		};
-		Timer timer = new Timer(20, listener);
+		timer = new Timer(10, listener);
 		timer.setRepeats(true);
 		timer.start();
 	}
 	
 	private void animar() {
 		Camara camara = juego.getRender().getCamara();
-		camara.setZoom(camara.getZoom()-5);
-		if(camara.getZoom() <= 15) {
+		camara.setZoom(camara.getZoom()-2);
+		if(timer != null && camara.getZoom() <= 15) {
 			timer.stop();
 		}
 	}
