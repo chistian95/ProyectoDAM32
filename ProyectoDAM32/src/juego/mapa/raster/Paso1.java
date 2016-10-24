@@ -6,7 +6,7 @@ import juego.mapa.TipoCasilla;
 
 public class Paso1 extends Rasterizador {
 	public final static int TAM_PASO1 = 5;
-	public final static int TAM_HIELO = 3;
+	public final static int TAM_HIELO = 5;
 	
 	private static final int DELAY_GEN = 15; //15
 	

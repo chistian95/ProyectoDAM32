@@ -24,14 +24,23 @@ public class VistaMapaGen {
 		String textoGen = "";
 		switch(generador.getFase()) {
 		case 0:
+			if(generador.getSeed() == null) {
+				break;
+			}
 			seed = generador.getSeed().getCasillas();
 			textoGen = generador.getSeed().getTextoGen();
 			break;
 		case 1:
+			if(generador.getPaso1() == null) {
+				break;
+			}
 			seed = generador.getPaso1().getCasillas();
 			textoGen = generador.getPaso1().getTextoGen();
 			break;
 		case 2:
+			if(generador.getPaso2() == null) {
+				break;
+			}
 			seed = generador.getPaso2().getCasillas();
 			textoGen = generador.getPaso2().getTextoGen();
 			break;

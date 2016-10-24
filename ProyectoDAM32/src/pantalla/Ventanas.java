@@ -8,9 +8,10 @@ import java.util.List;
 import pantalla.pintar.Pintable;
 
 public class Ventanas {
-	private static final Color COLOR_FONDO = new Color(200, 171, 131);
-	private static final Color COLOR_BORDE = new Color(205, 104, 48);
-	private static final int ANCHO_BORDE = 4;	
+	public static final Color COLOR_FONDO = new Color(200, 171, 131);
+	public static final Color COLOR_SELECCIONADO = new Color(230, 211, 161);
+	public static final Color COLOR_BORDE = new Color(205, 104, 48);
+	public static final int ANCHO_BORDE = 4;	
 	
 	public static void pintarVentana(Graphics2D g, Pantalla pantalla, int x, int y, int tamX, int tamY, List<? extends Pintable> objetos) {	
 		g.setColor(COLOR_FONDO);
@@ -30,7 +31,7 @@ public class Ventanas {
 	}
 	
 	public static void pintarVentanaPrincipal(Graphics2D g, Pantalla pantalla, List<? extends Pintable> objetos) {
-		int tamX = (int) (pantalla.WIDTH * 0.5);
+		int tamX = (int) (pantalla.WIDTH * 0.75);
 		int tamY = (int) (pantalla.HEIGHT * 0.75);
 		int x = (int) (pantalla.WIDTH/2.0 - tamX/2.0 - ANCHO_BORDE/2.0);
 		int y = (int) (pantalla.HEIGHT/2.0 - tamY/2.0 - ANCHO_BORDE/2.0);
