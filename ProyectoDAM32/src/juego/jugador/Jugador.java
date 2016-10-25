@@ -5,6 +5,7 @@ import java.util.List;
 
 import juego.Juego;
 import juego.Nacion;
+import juego.jugador.ciudad.Ciudad;
 import juego.mapa.Casilla;
 
 public class Jugador {

@@ -1,4 +1,4 @@
-package juego.jugador;
+package juego.jugador.ciudad;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +8,8 @@ import javax.swing.Timer;
 import pantalla.Camara;
 
 public class AnimacionCiudad extends Thread {
+	private static final int ZOOM_ANIM = 5;
+	
 	private Ciudad ciudad;
 	private Timer timer;
 	private double deltaX;
@@ -19,8 +21,8 @@ public class AnimacionCiudad extends Thread {
 		Camara camara = ciudad.getJugador().getJuego().getRender().getCamara();
 		double startX = camara.getX();
 		double startY = camara.getY();
-		deltaX = (ciudad.getX() - startX) / (camara.getZoom()/2 - 15);
-		deltaY = (ciudad.getY() - startY) / (camara.getZoom()/2 - 15);
+		deltaX = (ciudad.getX() - startX) / (camara.getZoom()/2 - ZOOM_ANIM);
+		deltaY = (ciudad.getY() - startY) / (camara.getZoom()/2 - ZOOM_ANIM);
 		
 		start();
 	}
@@ -52,11 +54,11 @@ public class AnimacionCiudad extends Thread {
 		}
 		camara.setPos(x, y);
 		
-		if(camara.getZoom() > 15) {
+		if(camara.getZoom() > ZOOM_ANIM) {
 			camara.setZoom(camara.getZoom()-2);
 		}
 		
-		if(timer != null && camara.getZoom() <= 15 && xCam == ciudad.getX() && (int) yCam == ciudad.getY()) {
+		if(timer != null && camara.getZoom() <= ZOOM_ANIM && xCam == ciudad.getX() && (int) yCam == ciudad.getY()) {
 			timer.stop();
 		}
 	}

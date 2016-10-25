@@ -8,15 +8,16 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import juego.Juego;
-import juego.jugador.Ciudad;
 import juego.jugador.Jugador;
+import juego.jugador.ciudad.Ciudad;
 import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
 public class Camara implements KeyListener, MouseWheelListener {
-	private static final int ZOOM_TEXTURAS = 50;
+	public static final int ZOOM_TEXTURAS = 50;
+	
 	private static final double DELTA_ZOOM = 5;
-	private static final double VEL_CAMARA = 0.012;
+	private static final double VEL_CAMARA = 0.05;
 	
 	private Juego juego;
 	private double x;
@@ -143,7 +144,7 @@ public class Camara implements KeyListener, MouseWheelListener {
 	
 	private void moverCamara() {
 		double dMov = VEL_CAMARA*zoom;
-		if(dMov < 1) {
+		if(dMov < 0) {
 			dMov = 1;
 		}
 		
