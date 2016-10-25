@@ -67,36 +67,6 @@ public class Paso1 extends Rasterizador {
 			}
 		}
 		
-		this.setTextoGen("Limpiando bordes...");
-		
-		for(int y=0; y<getCasillas().length; y++) {
-			getCasillas()[0][y].setTipo(TipoCasilla.OCEANO);
-			double rnd = Math.random()*100;
-			if(rnd < 25) {
-				getCasillas()[1][y].setTipo(TipoCasilla.OCEANO);
-				rnd = Math.random()*100;
-				if(rnd < 10) {
-					getCasillas()[2][y].setTipo(TipoCasilla.OCEANO);
-				}
-			}
-			
-			getCasillas()[getCasillas().length-1][y].setTipo(TipoCasilla.OCEANO);
-			rnd = Math.random()*100;
-			if(rnd < 25) {
-				getCasillas()[getCasillas().length-2][y].setTipo(TipoCasilla.OCEANO);
-				rnd = Math.random()*100;
-				if(rnd < 10) {
-					getCasillas()[getCasillas().length-3][y].setTipo(TipoCasilla.OCEANO);
-				}
-			}							
-			
-			try {
-				Thread.sleep(DELAY_GEN/2);
-			} catch(Exception e) {
-			
-			}
-		}
-		
 		this.setTextoGen("Generando polos...");
 		
 		for(int x=0; x<getCasillas().length; x++) {

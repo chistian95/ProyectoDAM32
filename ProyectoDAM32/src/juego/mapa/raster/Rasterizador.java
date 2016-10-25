@@ -27,39 +27,34 @@ public abstract class Rasterizador extends Thread {
 	public TipoCasilla getTipo(Casilla[][] casillas, int x, int y) {
 		TipoCasilla tipoCasilla = casillas[x][y].getTipo();
 		
+		int yNeg = y-1;
+		if(yNeg < 0) {
+			yNeg = casillas[0].length - 1;
+		}
+		int xNeg = x-1;
+		if(xNeg < 0) {
+			xNeg = casillas.length - 1;
+		}
+		int yPos = y+1;
+		if(yPos >= casillas[0].length) {
+			yPos = 0;
+		}
+		int xPos = x+1;
+		if(xPos >= casillas.length) {
+			xPos = 0;
+		}
+		
 		Casilla cas = casillas[x][y];
-		Casilla cas_up = cas;
-		if(y-1 >= 0) {
-			cas_up = casillas[x][y-1];
-		}
-		Casilla cas_down = cas;
-		if(y+1 < casillas.length) {
-			cas_down = casillas[x][y+1];
-		}
-		Casilla cas_left = cas;
-		if(x-1 >= 0) {
-			cas_left = casillas[x-1][y];
-		}
-		Casilla cas_right = cas;
-		if(x+1 < casillas.length) {
-			cas_right = casillas[x+1][y];
-		}
-		Casilla cas_up_left = cas;
-		if(y-1 >= 0 && x-1 >= 0) {
-			cas_up_left = casillas[x-1][y-1];
-		}
-		Casilla cas_up_right = cas;
-		if(y-1 >= 0 && x+1 < casillas.length) {
-			cas_up_right = casillas[x+1][y-1];
-		}
-		Casilla cas_down_left = cas;
-		if(y+1 < casillas.length && x-1 >= 0) {
-			cas_down_left = casillas[x-1][y+1];
-		}
-		Casilla cas_down_right = cas;
-		if(y+1 < casillas.length && x+1 < casillas.length) {
-			cas_down_right = casillas[x+1][y+1];
-		}
+		
+		Casilla cas_up = casillas[x][yNeg];
+		Casilla cas_down = casillas[x][yPos];
+		Casilla cas_left = casillas[xNeg][y];
+		Casilla cas_right = casillas[xPos][y];
+		
+		Casilla cas_up_left = casillas[xNeg][yNeg];
+		Casilla cas_up_right = casillas[xPos][yNeg];
+		Casilla cas_down_left = casillas[xNeg][yPos];
+		Casilla cas_down_right = casillas[xPos][yPos];
 		
 		boolean iguales = false;
 		if(cas.getTipo().equals(cas_up.getTipo()) && cas.getTipo().equals(cas_down.getTipo())

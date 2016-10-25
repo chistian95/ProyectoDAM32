@@ -21,11 +21,11 @@ public class Generador extends Thread {
 	}
 	
 	public void run() {
-		try {
+		try {			
 			seed = new Seed(this);
 			seed.join();
 			paso1 = new Paso1(this);
-			paso1.join();
+			paso1.join();			
 			paso2 = new Paso2(this);
 			paso2.join();
 			

@@ -98,29 +98,46 @@ public class Paso2 extends Rasterizador {
 		getGenerador().setFase(-1);
 	}
 	
-	private boolean hayTierra(int x, int y) {
-		if(x-1 >= 0 && !getCasillas()[x-1][y].getTipo().isLiquido()) {
+	private boolean hayTierra(int x, int y) {		
+		int yNeg = y-1;
+		if(yNeg < 0) {
+			yNeg = getCasillas()[0].length - 1;
+		}
+		int xNeg = x-1;
+		if(xNeg < 0) {
+			xNeg = getCasillas().length - 1;
+		}
+		int yPos = y+1;
+		if(yPos >= getCasillas()[0].length) {
+			yPos = 0;
+		}
+		int xPos = x+1;
+		if(xPos >= getCasillas().length) {
+			xPos = 0;
+		}
+		
+		if(!getCasillas()[xNeg][y].getTipo().isLiquido()) {
 			return true;
 		}
-		if(y-1 >= 0 && !getCasillas()[x][y-1].getTipo().isLiquido()) {
+		if(!getCasillas()[x][yNeg].getTipo().isLiquido()) {
 			return true;
 		}
-		if(x+1 < getCasillas().length && !getCasillas()[x+1][y].getTipo().isLiquido()) {
+		if(!getCasillas()[xPos][y].getTipo().isLiquido()) {
 			return true;
 		}
-		if(y+1 < getCasillas().length && !getCasillas()[x][y+1].getTipo().isLiquido()) {
+		if(!getCasillas()[x][yPos].getTipo().isLiquido()) {
 			return true;
 		}
-		if(y-1 >= 0 && x-1 >= 0 && !getCasillas()[x-1][y-1].getTipo().isLiquido()) {
+		if(!getCasillas()[xNeg][yNeg].getTipo().isLiquido()) {
 			return true;
 		}
-		if(y-1 >= 0 && x+1 < getCasillas().length && !getCasillas()[x+1][y-1].getTipo().isLiquido()) {
+		if(!getCasillas()[xPos][yNeg].getTipo().isLiquido()) {
 			return true;
 		}
-		if(y+1 < getCasillas().length && x-1 >= 0 && !getCasillas()[x-1][y+1].getTipo().isLiquido()) {
+		if(!getCasillas()[xNeg][yPos].getTipo().isLiquido()) {
 			return true;
 		}
-		if(y+1 < getCasillas().length && x+1 < getCasillas().length && !getCasillas()[x+1][y+1].getTipo().isLiquido()) {
+		if(!getCasillas()[xPos][yPos].getTipo().isLiquido()) {
 			return true;
 		}
 		
