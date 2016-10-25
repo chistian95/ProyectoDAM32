@@ -76,4 +76,8 @@ public class Juego extends Thread {
 	public JugadorHumano getJugador() {
 		return jugador;
 	}
+	
+	public List<Jugador> getJugadores() {
+		return jugadores;
+	}
 }

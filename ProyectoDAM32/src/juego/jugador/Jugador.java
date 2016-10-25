@@ -63,4 +63,8 @@ public class Jugador {
 	public void setIA(boolean IA) {
 		this.IA = IA;
 	}
+	
+	public List<Ciudad> getCiudades() {
+		return ciudades;
+	}
 }

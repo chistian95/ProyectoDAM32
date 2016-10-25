@@ -55,6 +55,7 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 		EstadoJuego estadoJuego = juego.getEstadoJuego();
 		Renderizador render = juego.getRender();
 		JugadorHumano jugador = juego.getJugador();
+		
 		bff.setColor(Color.WHITE);
 		bff.fillRect(0, 0, WIDTH, HEIGHT);
 		
@@ -69,7 +70,7 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 			case PRECARGA:
 				break;
 			}
-		}	
+		}		
 		
 		if(jugador != null) {
 			switch(jugador.getEstadoJugador()) {

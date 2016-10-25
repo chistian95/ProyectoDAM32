@@ -8,6 +8,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import juego.Juego;
+import juego.jugador.Ciudad;
+import juego.jugador.Jugador;
 import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
@@ -38,7 +40,7 @@ public class Camara implements KeyListener, MouseWheelListener {
 		precargarTexturas();
 	}
 	
-	public void pintar(Graphics2D g) {
+	public void pintar(Graphics2D g) {		
 		Pantalla pantalla = juego.getPantalla();
 		Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();	
 		
@@ -66,10 +68,11 @@ public class Camara implements KeyListener, MouseWheelListener {
 					return;
 				}
 				if(yPintar < 0) {
-					this.y= (int) (zoom/2);
+					this.y = (int) (zoom/2);
 					pintar(g);
 					return;
-				}
+				}				
+				
 				Casilla cas = casillas[xPintar][yPintar];
 				if(cas == null) {
 					g.setColor(TipoCasilla.OCEANO.getColor());
@@ -93,7 +96,46 @@ public class Camara implements KeyListener, MouseWheelListener {
 					Color colorTrans = new Color(color.getRed(), color.getGreen(), color.getBlue(), alfa);
 					g.setColor(colorTrans);
 					g.fillRect((int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
-				}				
+				}
+			}
+		}
+		
+		for(int y=0; y<zoom; y++) {
+			for(int x=0; x<zoom; x++) {
+				int xPintar = x+xIni;
+				int yPintar = y+yIni;
+				
+				if(xPintar >= casillas.length) {
+					xPintar = xPintar - casillas.length;
+				}
+				if(xPintar < 0) {
+					xPintar = casillas.length + xPintar;
+				}
+				
+				if(yPintar >= casillas[0].length) {
+					this.y = casillas[0].length - (int) (zoom/2);
+					pintar(g);
+					return;
+				}
+				if(yPintar < 0) {
+					this.y = (int) (zoom/2);
+					pintar(g);
+					return;
+				}
+				
+				if(juego.getJugadores() != null && juego.getJugadores().size() > 0) {
+					for(Jugador jg : juego.getJugadores()) {
+						if(jg.getCiudades() == null || jg.getCiudades().size() <= 0) {
+							continue;
+						}
+						for(Ciudad c : jg.getCiudades()) {
+							if(c.getX() != xPintar || c.getY() != yPintar) {
+								continue;
+							}
+							c.getCiudadPintable().pintar(g, (int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
+						}	
+					}
+				}
 			}
 		}
 		moverCamara();
