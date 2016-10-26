@@ -1,5 +1,6 @@
 package juego.jugador.unidad;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import juego.jugador.Jugador;
@@ -48,7 +49,31 @@ public class Unidad implements Pintable {
 	
 	@Override
 	public void pintar(Graphics2D g, int x, int y, int tamX, int tamY) {
+		int banderaX = (int) (x + (tamX * 0.4));
+		int banderaY = (int) (y - tamY * 0.2);
+		int banderaTamX = (int) (tamX - 2 * (tamX * 0.4));
+		int banderaTamY = (int) (tamY - 2 * (tamY * 0.4));
 		
+		g.drawImage(jugador.getNacion().getTextura(), banderaX, banderaY, banderaTamX, banderaTamY, null);
+		
+		int vidaX = (int) (x + (tamX * 0.2));
+		int vidaY = (int) (y + (tamY * 0.05));
+		int vidaTamX = (int) (tamX - (tamX * 0.4));
+		int vidaTamXAct = (int) (vidaTamX * (vida / 100.0));
+		int vidaTamY = (int) (tamY * 0.05);
+		
+		int canalRojo = (int) (255 - 127 * (vida / 100.0));
+		int canalVerde = (int) (127 + 127 * (vida / 100.0));
+		Color colorVida = new Color(canalRojo, canalVerde, 0);
+		
+		g.setColor(Color.GRAY);
+		g.fillRect(vidaX, vidaY, vidaTamX, vidaTamY);
+		g.setColor(colorVida);
+		g.fillRect(vidaX, vidaY, vidaTamXAct, vidaTamY);
+		g.setColor(Color.GREEN.darker());
+		g.drawRect(vidaX, vidaY, vidaTamX, vidaTamY);
+		
+		g.drawImage(tipo.getTextura(), x, y, tamX, tamY, null);
 	}
 
 	public String getNombre() {
