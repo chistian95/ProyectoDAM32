@@ -65,22 +65,21 @@ public class Ciudad implements Pintable {
 			Color colorTrans = new Color(color.getRed(), color.getGreen(), color.getBlue(), alfa);
 			g.setColor(colorTrans);
 			g.fillRect(x, y, tamX, tamY);
-		}		
+		}	
+		
+		int fondoX = (int) (x + tamX * 0.1);
+		int fondoY = (int) (y - tamY * 0.3);
+		int fondoTamX = (int) (tamX - tamX * 0.2);
+		int fondoTamY = (int) (tamY * 0.2);
+		int radio = (int) (fondoTamX * 0.2);
+		g.setColor(new Color(0, 0, 0, 127));
+		g.fillRoundRect(fondoX, fondoY, fondoTamX, fondoTamY, radio, radio);
 		
 		String nombreNacion = jugador.getNacion().getNombre();
-		Font fuente = new Font("Times new roman", Font.BOLD, tamX/2);
+		Font fuente = new Font("Times new roman", Font.BOLD, fondoTamX/6);
 		FontMetrics metrics = g.getFontMetrics(fuente);
-		int textoX = (2*x+tamX - metrics.stringWidth(nombreNacion))/2;
-		int textoY = y+tamY/4 - metrics.getAscent();
-		
-		int fondoX = (int) (textoX - metrics.stringWidth(nombreNacion) * 0.1);
-		int fondoY = (int) (textoY - metrics.getAscent() - metrics.getAscent() * 0.025);
-		int tamFondoX = (int) (metrics.stringWidth(nombreNacion) + 2 * metrics.stringWidth(nombreNacion) * 0.1);
-		int tamFondoY = (int) (metrics.getAscent() + 2 * metrics.getAscent() * 0.2);
-		int radio = (int) (tamFondoX * 0.2);
-		g.setColor(new Color(0, 0, 0, 127));
-		g.fillRoundRect(fondoX, fondoY, tamFondoX, tamFondoY, radio, radio);
-		
+		int textoX = (int) ((2.0 * fondoX + fondoTamX - metrics.stringWidth(nombreNacion)) / 2.0);
+		int textoY = (int) (fondoY + fondoTamY - metrics.getAscent() / 2.0);
 		g.setFont(fuente);
 		g.setColor(Color.WHITE);
 		g.drawString(nombreNacion, textoX, textoY);
