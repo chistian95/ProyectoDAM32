@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelListener;
 import juego.Juego;
 import juego.jugador.Jugador;
 import juego.jugador.ciudad.Ciudad;
+import juego.jugador.unidad.Unidad;
 import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
@@ -126,15 +127,23 @@ public class Camara implements KeyListener, MouseWheelListener {
 				
 				if(juego.getJugadores() != null && juego.getJugadores().size() > 0) {
 					for(Jugador jg : juego.getJugadores()) {
-						if(jg.getCiudades() == null || jg.getCiudades().size() <= 0) {
-							continue;
-						}
-						for(Ciudad c : jg.getCiudades()) {
-							if(c.getX() != xPintar || c.getY() != yPintar) {
-								continue;
+						if(jg.getCiudades() != null && jg.getCiudades().size() > 0) {
+							for(Ciudad c : jg.getCiudades()) {
+								if(c.getX() != xPintar || c.getY() != yPintar) {
+									continue;
+								}
+								c.pintar(g, (int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
 							}
-							c.getCiudadPintable().pintar(g, (int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
-						}	
+						}
+						
+						if(jg.getUnidades() != null && jg.getUnidades().size() > 0) {
+							for(Unidad u : jg.getUnidades()) {
+								if(u.getX() != xPintar || u.getY() != yPintar) {
+									continue;
+								}
+								u.pintar(g, (int) Math.floor(x*xTam), (int) Math.floor(y*yTam), (int) Math.ceil(xTam), (int) Math.ceil(yTam));
+							}
+						}
 					}
 				}
 			}

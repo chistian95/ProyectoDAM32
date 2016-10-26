@@ -6,18 +6,22 @@ import java.util.List;
 import juego.Juego;
 import juego.Nacion;
 import juego.jugador.ciudad.Ciudad;
+import juego.jugador.unidad.TipoUnidad;
+import juego.jugador.unidad.Unidad;
 import juego.mapa.Casilla;
 
 public class Jugador {
 	private Nacion nacion;
 	private Juego juego;
 	private List<Ciudad> ciudades;
+	private List<Unidad> unidades;
 	private boolean IA;
 	
 	public Jugador(Juego juego, Nacion nacion) {
 		this.juego = juego;
 		this.nacion = nacion;
 		ciudades = new ArrayList<Ciudad>();
+		unidades = new ArrayList<Unidad>();
 		IA = false;
 	}
 	
@@ -31,6 +35,9 @@ public class Jugador {
 				Ciudad c = new Ciudad(this, x, y);
 				c.setCapital(true);
 				ciudades.add(c);
+				
+				Unidad u = new Unidad(this, TipoUnidad.GUERRERO, x, y);
+				unidades.add(u);
 				break;
 			}
 		}
@@ -67,5 +74,9 @@ public class Jugador {
 	
 	public List<Ciudad> getCiudades() {
 		return ciudades;
+	}
+	
+	public List<Unidad> getUnidades() {
+		return unidades;
 	}
 }
