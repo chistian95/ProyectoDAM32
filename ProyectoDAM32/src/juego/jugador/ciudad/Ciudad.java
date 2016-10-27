@@ -45,7 +45,11 @@ public class Ciudad implements Pintable {
 		String[] listaCiudades = jugador.getNacion().getCiudades();
 		int nCiudades = jugador.getCiudades().size() % listaCiudades.length;
 		
-		this.nombre = listaCiudades[nCiudades];
+		this.nombre = "";
+		if(jugador.getCiudades().size() >= listaCiudades.length) {
+			this.nombre = "Nueva "; 
+		}
+		this.nombre += listaCiudades[nCiudades];
 	}
 	
 	@Override
