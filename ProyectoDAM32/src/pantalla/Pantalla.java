@@ -28,9 +28,11 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 	
 	private BufferedImage bf;
 	private Juego juego;
+	private long numFrame;
 	
 	public Pantalla(Juego juego) {
 		this.juego = juego;
+		numFrame = 0;
 		bf = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		
 		setUndecorated(true);
@@ -73,15 +75,11 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 		}		
 		
 		if(jugador != null) {
-			switch(jugador.getEstadoJugador()) {
-			case ELEGIR_NACION:
-				jugador.pintar(bff);
-				break;
-			default:
-			}
+			jugador.pintar(bff);
 		}
 		
 		g.drawImage(bf, 0, 0, null);
+		numFrame++;
 	}
 	
 	public void comenzar() {
@@ -97,6 +95,10 @@ public class Pantalla extends JFrame implements KeyListener, MouseWheelListener 
 	
 	public Juego getJuego() {
 		return juego;
+	}
+	
+	public long getNumFrame() {
+		return numFrame;
 	}
 
 	@Override

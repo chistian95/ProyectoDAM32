@@ -1,20 +1,22 @@
 package juego.jugador.unidad;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import juego.jugador.EstadoJugador;
 import juego.jugador.Jugador;
+import juego.jugador.JugadorHumano;
 import juego.mapa.Casilla;
 import pantalla.pintar.Pintable;
 
 public class Unidad implements Pintable {
-	protected Jugador jugador;
-	protected String nombre;
-	protected TipoUnidad tipo;
-	protected int vida;
-	protected int movimientos;
-	protected int x;
-	protected int y;
+	private Jugador jugador;
+	private TipoUnidad tipo;
+	private int vida;
+	private int movimientos;
+	private int x;
+	private int y;
 	
 	public Unidad(Jugador jugador, TipoUnidad tipo, int x, int y) {
 		this.jugador = jugador;
@@ -74,10 +76,25 @@ public class Unidad implements Pintable {
 		g.drawRect(vidaX, vidaY, vidaTamX, vidaTamY);
 		
 		g.drawImage(tipo.getTextura(), x, y, tamX, tamY, null);
+		
+		if(jugador instanceof JugadorHumano) {
+			JugadorHumano jh = (JugadorHumano) jugador;
+			if(jh.getEstadoJugador().equals(EstadoJugador.MOVER_UNIDAD) && jh.getUnidadSel() != null && jh.getUnidadSel().equals(this)) {
+				int alfa = (int) (getJugador().getJuego().getPantalla().getNumFrame() % 64);
+				alfa = (int) (Math.abs(alfa * 4 - 127) / 1.5);
+				alfa = alfa > 255 ? 255 : alfa;
+				
+				g.setColor(new Color(255, 255, 255, alfa));
+				g.fillRect(x, y, tamX, tamY);
+				g.setColor(new Color(0, 0, 0, alfa));
+				g.setStroke(new BasicStroke(1));
+				g.drawRect(x, y, tamX, tamY);
+			}
+		}
 	}
 
 	public String getNombre() {
-		return nombre;
+		return tipo.getNombre();
 	}
 
 	public Jugador getJugador() {

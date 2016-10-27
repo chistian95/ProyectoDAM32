@@ -20,11 +20,11 @@ public enum Nacion {
 			"Albuquerque", "Minneapolis", "Oakland"
 	}),
 	RUSIA(1, "Rusia", "Vladimir Putin", "rusia.png", new String[] {
-		"Moscú", "St. Petersburgo", "Novgorod", "Rostov", "Yaroslavl", "Yekaterinburgo",
-		"Yakutsk", "Vladivostok", "Smolensk", "Orenburgo", "Krasnoyarsk", "Khabarovsk",
-		"Bryanks", "Tver", "Nvosibirsk", "Magadan", "Murmansk", "Chita", "Samara",
-		"Arkhangelsk", "Chelyabinsk", "Tobolsk", "Vologda", "Omsk", "Astrakhan",
-		"Kursk", "Saratov", "Tula", "Vladimir"
+			"Moscú", "St. Petersburgo", "Novgorod", "Rostov", "Yaroslavl", "Yekaterinburgo",
+			"Yakutsk", "Vladivostok", "Smolensk", "Orenburgo", "Krasnoyarsk", "Khabarovsk",
+			"Bryanks", "Tver", "Nvosibirsk", "Magadan", "Murmansk", "Chita", "Samara",
+			"Arkhangelsk", "Chelyabinsk", "Tobolsk", "Vologda", "Omsk", "Astrakhan",
+			"Kursk", "Saratov", "Tula", "Vladimir"
 	}),
 	COREA(2, "Corea", "Kim Jong-Un", "corea.png", new String[] {
 			"Seul", "Busan", "Jenjou", "Daegu", "Pyongyang", "Kaesong", "Suwon",
