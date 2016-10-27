@@ -11,22 +11,52 @@ import javax.imageio.ImageIO;
 import pantalla.pintar.TextoPintable;
 
 public enum Nacion {
-	EEUU(0, "EEUU", "Donald Trump", "eeuu.png"),
-	RUSIA(1, "Rusia", "Vladimir Putin", "rusia.png"),
-	COREA(2, "Corea", "Kim Jong-Un", "corea.png"),
-	ESPAÑA(3, "España", "Francisco Franco", "españa.png"),
-	ALEMANIA(4, "Alemania", "Adolf Hitler", "alemania.png");
+	EEUU(0, "EEUU", "Donald Trump", "eeuu.png", new String[] {
+			"Washington", "New York", "Boston", "Philadelphia", "Atlanta",
+			"Chicago", "Seatle", "San Francisco", "Los Angeles", "Houston",
+			"Protland", "St Louis", "Miami", "Buffalo", "Detroit", "New Orleans",
+			"Baltimore", "Denver", "Cincinnati", "Dallas", "Memphis", "Cleveland",
+			"Kansas City", "San Diego", "Richmond", "Las Vegas", "Phoenix", 
+			"Albuquerque", "Minneapolis", "Oakland"
+	}),
+	RUSIA(1, "Rusia", "Vladimir Putin", "rusia.png", new String[] {
+		"Moscú", "St. Petersburgo", "Novgorod", "Rostov", "Yaroslavl", "Yekaterinburgo",
+		"Yakutsk", "Vladivostok", "Smolensk", "Orenburgo", "Krasnoyarsk", "Khabarovsk",
+		"Bryanks", "Tver", "Nvosibirsk", "Magadan", "Murmansk", "Chita", "Samara",
+		"Arkhangelsk", "Chelyabinsk", "Tobolsk", "Vologda", "Omsk", "Astrakhan",
+		"Kursk", "Saratov", "Tula", "Vladimir"
+	}),
+	COREA(2, "Corea", "Kim Jong-Un", "corea.png", new String[] {
+			"Seul", "Busan", "Jenjou", "Daegu", "Pyongyang", "Kaesong", "Suwon",
+			"Gwangju", "Gangneung", "Hamhung", "Wonju", "Ulsan", "Changwon", "Andong",
+			"Gongju", "Haeju", "Cheongju", "Mokpo", "Dongducheon", "Geoje", "Suncheon",
+			"Jinju", "Sangju", "Rason", "Gyeongju", "Chungju", "Sacheon", "Gimje", "Anju"
+	}),
+	ESPAÑA(3, "España", "Francisco Franco", "españa.png", new String[] {
+			"Bilbao", "Madrid", "Barcelona", "San Sebastian", "Sevilla", "Córdoba", "Toledo", 
+			"Santiago", "Salamanca", "Murcia", "Valencia", "Zaragoza", "Pamplona", "Vitoria",
+			"Santander", "Oviedo", "Jaen", "Logroño", "Valladolid", "Teruel", "Almería", "León",
+			"Zamora", "La Coruña", "Lugo", "Alicante", "Cádiz", "Elche", "Burgos", "Vigo"
+	}),
+	ALEMANIA(4, "Alemania", "Adolf Hitler", "alemania.png", new String[] {
+			"Berlín", "Hamburgo", "Munich", "Cologne", "Frankfurt", "Essen", "Dortmund", "Stuttgart",
+			"Düsseldorf", "Bremen", "Hannover", "Duisburg", "Leipzig", "Dresden", "Bonn", "Bochum",
+			"Bielefeld", "Karlsruhe", "Gelsenkirchen", "Wiesbaden", "Münster", "Rostock", "Chemnitz",
+			"Braunschweig", "Halle", "Mönchengladbach", "Kiel", "Wuppertal", "Freiburg", "Hagen"
+	});
 	
 	private int id;
 	private String nombre;
 	private String lider;
 	private BufferedImage textura;
+	private String[] ciudades;
 	private List<TextoPintable> ventajas;
 	
-	private Nacion(int id, String nombre, String lider, String archivo) {
+	private Nacion(int id, String nombre, String lider, String archivo, String[] ciudades) {
 		this.id = id;
 		this.nombre = nombre;
 		this.lider = lider;
+		this.ciudades = ciudades;
 		try {
 			textura = ImageIO.read(new File("src/res/gui/"+archivo));
 		} catch (IOException e) {
@@ -77,6 +107,10 @@ public enum Nacion {
 	
 	public BufferedImage getTextura() {
 		return textura;
+	}
+	
+	public String[] getCiudades() {
+		return ciudades;
 	}
 	
 	public List<TextoPintable> getVentajas() {

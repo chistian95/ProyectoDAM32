@@ -16,6 +16,7 @@ import pantalla.pintar.Pintable;
 
 public class Ciudad implements Pintable {
 	private Jugador jugador;
+	String nombre;
 	private int x;
 	private int y;
 	private boolean capital;
@@ -26,6 +27,9 @@ public class Ciudad implements Pintable {
 		this.x = x;
 		this.y = y;
 		capital = false;
+		
+		generarNombre();
+		
 		try {
 			textura = ImageIO.read(new File("src/res/ciudades/ciudad_antigua.png"));
 		} catch (IOException e) {
@@ -35,6 +39,13 @@ public class Ciudad implements Pintable {
 	
 	public void centrarCamara() {
 		new AnimacionCiudad(this);
+	}
+	
+	private void generarNombre() {
+		String[] listaCiudades = jugador.getNacion().getCiudades();
+		int nCiudades = jugador.getCiudades().size() % listaCiudades.length;
+		
+		this.nombre = listaCiudades[nCiudades];
 	}
 	
 	@Override
@@ -75,14 +86,13 @@ public class Ciudad implements Pintable {
 		g.setColor(new Color(0, 0, 0, 127));
 		g.fillRoundRect(fondoX, fondoY, fondoTamX, fondoTamY, radio, radio);
 		
-		String nombreNacion = jugador.getNacion().getNombre();
 		Font fuente = new Font("Times new roman", Font.BOLD, fondoTamX/6);
 		FontMetrics metrics = g.getFontMetrics(fuente);
-		int textoX = (int) ((2.0 * fondoX + fondoTamX - metrics.stringWidth(nombreNacion)) / 2.0);
+		int textoX = (int) ((2.0 * fondoX + fondoTamX - metrics.stringWidth(nombre)) / 2.0);
 		int textoY = (int) (fondoY + fondoTamY - metrics.getAscent() / 2.0);
 		g.setFont(fuente);
 		g.setColor(Color.WHITE);
-		g.drawString(nombreNacion, textoX, textoY);
+		g.drawString(nombre, textoX, textoY);
 	}
 	
 	public Jugador getJugador() {
@@ -103,6 +113,10 @@ public class Ciudad implements Pintable {
 	
 	public void setCapital(boolean capital) {
 		this.capital = capital;
+	}
+	
+	public String getNombre() {
+		return nombre;
 	}
 	
 	public BufferedImage getTextura() {
