@@ -29,6 +29,11 @@ public class JugadorHumano extends Jugador {
 		Ventanas.pintarVentanaPrincipal(g, juego.getPantalla(), listaNaciones);
 	}
 	
+	@Override
+	public void hacerTurno() {
+		System.out.println("Turno Jugador");
+	}
+	
 	public void comenzarPartida(Nacion nacion) {
 		this.setNacion(nacion);
 		for(NacionPintable np : listaNaciones) {

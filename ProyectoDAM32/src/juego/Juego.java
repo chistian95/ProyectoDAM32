@@ -5,6 +5,7 @@ import java.util.List;
 
 import juego.jugador.Jugador;
 import juego.jugador.JugadorHumano;
+import juego.jugador.TurnoJugador;
 import juego.mapa.Generador;
 import pantalla.Pantalla;
 import pantalla.Renderizador;
@@ -51,6 +52,25 @@ public class Juego extends Thread {
 		}
 		jugador.ponerEnMundo();
 		jugador.getCapital().centrarCamara();
+		
+		Thread t = new Thread() {
+			public void run() {
+				siguienteTurno();
+			}
+		};
+		t.start();
+	}
+	
+	public void siguienteTurno() {
+		for(Jugador jg : jugadores) {
+			TurnoJugador tj = new TurnoJugador(jg);
+			try {
+				tj.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		siguienteTurno();
 	}
 	
 	public EstadoJuego getEstadoJuego() {

@@ -43,6 +43,10 @@ public class Jugador {
 		}
 	}
 	
+	public void hacerTurno() {
+		System.out.println("Turno IA");
+	}
+	
 	public Ciudad getCapital() {
 		for(Ciudad c : ciudades) {
 			if(c.isCapital()) {
