@@ -3,6 +3,7 @@ package juego.jugador.unidad;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 import juego.jugador.EstadoJugador;
 import juego.jugador.Jugador;
@@ -77,20 +78,35 @@ public class Unidad implements Pintable {
 		
 		g.drawImage(tipo.getTextura(), x, y, tamX, tamY, null);
 		
-		if(jugador instanceof JugadorHumano) {
-			JugadorHumano jh = (JugadorHumano) jugador;
-			if(jh.getEstadoJugador().equals(EstadoJugador.MOVER_UNIDAD) && jh.getUnidadSel() != null && jh.getUnidadSel().equals(this)) {
-				int alfa = (int) (getJugador().getJuego().getPantalla().getNumFrame() % 64);
-				alfa = (int) (Math.abs(alfa * 4 - 127) / 1.5);
-				alfa = alfa > 255 ? 255 : alfa;
-				
-				g.setColor(new Color(255, 255, 255, alfa));
-				g.fillRect(x, y, tamX, tamY);
-				g.setColor(new Color(0, 0, 0, alfa));
-				g.setStroke(new BasicStroke(1));
-				g.drawRect(x, y, tamX, tamY);
-			}
+		JugadorHumano jh = jugador.getJuego().getJugador();
+		if(jh.getEstadoJugador().equals(EstadoJugador.MOVER_UNIDAD) && jh.getUnidadSel() != null && jh.getUnidadSel().equals(this)) {
+			int alfa = (int) (getJugador().getJuego().getPantalla().getNumFrame() % 64);
+			alfa = (int) (Math.abs(alfa * 4 - 127) / 1.5);
+			alfa = alfa > 255 ? 255 : alfa;
+			
+			g.setColor(new Color(255, 255, 255, alfa));
+			g.fillRect(x, y, tamX, tamY);
+			g.setColor(new Color(0, 0, 0, alfa));
+			g.setStroke(new BasicStroke(1));
+			g.drawRect(x, y, tamX, tamY);
 		}
+	}
+	
+	public boolean puedeMoverse(Casilla casilla) {
+		Point puntoCasilla = new Point(casilla.getX(), casilla.getY());
+		Point puntoUnidad = new Point(x, y);
+		int dist = (int) (puntoCasilla.distance(puntoUnidad));
+		if(dist <= movimientos) {
+			if(casilla.getTipo().isLiquido()) {
+				return false;
+			}
+			if(!casilla.getTipo().isMoldeable()) {
+				return false;
+			}
+			return true;
+		}
+		
+		return false;
 	}
 
 	public String getNombre() {
@@ -111,6 +127,10 @@ public class Unidad implements Pintable {
 	
 	public int getMovimientos() {
 		return movimientos;
+	}
+	
+	public void setMovimientos(int movs) {
+		this.movimientos = movs < 0 ? 0 : movs;
 	}
 	
 	public int getX() {

@@ -44,6 +44,7 @@ public class Ventanas {
 		List<TextoPintable> objetos = new ArrayList<TextoPintable>();
 		
 		objetos.add(new TextoPintable(unidad.getNombre()));
+		objetos.add(new TextoPintable("Nación: "+unidad.getJugador().getNacion().getNombre()));
 		objetos.add(new TextoPintable("Vida: "+unidad.getVida()+" / 100"));
 		objetos.add(new TextoPintable("Movimientos: "+unidad.getMovimientos()+" / "+unidad.getTipo().getMovimiento()));
 		objetos.add(new TextoPintable("Fuerza: "+unidad.getTipo().getFuerza()));

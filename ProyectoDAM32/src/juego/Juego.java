@@ -52,7 +52,7 @@ public class Juego extends Thread {
 		}
 		jugador.ponerEnMundo();
 		getRender().getCamara().setPos(jugador.getCapital().getX(), jugador.getCapital().getY());
-		getRender().getCamara().setZoom(4);
+		getRender().getCamara().setZoom(6);
 		
 		Thread t = new Thread() {
 			public void run() {

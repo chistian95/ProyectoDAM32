@@ -13,6 +13,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import juego.Juego;
+import juego.jugador.EstadoJugador;
 import juego.jugador.Jugador;
 import juego.jugador.ciudad.Ciudad;
 import juego.jugador.unidad.Unidad;
@@ -174,7 +175,12 @@ public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 	}
 	
 	private void pintarGUI(Graphics2D g) {
+		if(juego.getJugador() == null) {
+			return;
+		}
+			
 		Pantalla pantalla = juego.getPantalla();
+		Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();
 		
 		Point raton = MouseInfo.getPointerInfo().getLocation();
 		Point pantallaPos = pantalla.getLocationOnScreen();
@@ -185,8 +191,6 @@ public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 		ratonX = ratonX > pantalla.WIDTH ? juego.getPantalla().WIDTH : ratonX;
 		ratonY = ratonY < 0 ? 0 : ratonY;
 		ratonY = ratonY > pantalla.HEIGHT ? juego.getPantalla().HEIGHT : ratonY;
-		
-		//Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();	
 		
 		int xIni = (int) (x-zoom/2);
 		int yIni = (int) (y-zoom/2);
@@ -199,6 +203,15 @@ public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 		int casillaRelY = (int) (ratonY / yTam);
 		
 		g.setColor(new Color(255, 255, 255, 127));
+		if(juego.getJugador().getEstadoJugador().equals(EstadoJugador.MOVER_UNIDAD) && juego.getJugador().getUnidadSel().getJugador().equals(juego.getJugador())) {
+			Casilla cas = casillas[casillaX][casillaY];
+			
+			g.setColor(new Color(127, 0, 0, 127));
+			if(juego.getJugador().getUnidadSel().puedeMoverse(cas)) {
+				g.setColor(new Color(0, 127, 0, 127));				
+			}
+		}
+		
 		g.fillRect((int) (casillaRelX * xTam), (int) (casillaRelY * yTam), (int) xTam, (int) yTam); 
 		g.setColor(Color.BLACK);
 		g.setStroke(new BasicStroke(1));
@@ -337,6 +350,53 @@ public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		Pantalla pantalla = juego.getPantalla();		
+		Point raton = MouseInfo.getPointerInfo().getLocation();
+		Point pantallaPos = pantalla.getLocationOnScreen();
+		
+		double ratonX = raton.getX() - pantallaPos.getX();
+		double ratonY = raton.getY() - pantallaPos.getY();
+		ratonX = ratonX < 0 ? 0 : ratonX;
+		ratonX = ratonX > pantalla.WIDTH ? juego.getPantalla().WIDTH : ratonX;
+		ratonY = ratonY < 0 ? 0 : ratonY;
+		ratonY = ratonY > pantalla.HEIGHT ? juego.getPantalla().HEIGHT : ratonY;		
+		
+		int xIni = (int) (x-zoom/2);
+		int yIni = (int) (y-zoom/2);
+		double xTam = pantalla.WIDTH / zoom;
+		double yTam = pantalla.HEIGHT / zoom;
+		
+		int casillaX = (int) (xIni + ratonX / xTam);
+		int casillaY = (int) (yIni + ratonY / yTam);		
+		
+		if(juego.getJugadores() != null && juego.getJugador() != null) {
+			for(Jugador jg : juego.getJugadores()) {
+				for(Unidad un : jg.getUnidades()) {
+					if(un.getX() == casillaX && un.getY() == casillaY) {
+						if(juego.getJugador().getUnidadSel().equals(un)) {
+							for(Ciudad ci : jg.getCiudades()) {
+								if(ci.getX() == casillaX && ci.getY() == casillaY) {
+									System.out.println("Click ciudad "+ci.getNombre());
+									return;
+								}
+							}
+						}
+						System.out.println("Click unidad "+un.getNombre());
+						juego.getJugador().setUnidadSel(un);					
+						return;
+					}
+				}
+				for(Ciudad ci : jg.getCiudades()) {
+					if(ci.getX() == casillaX && ci.getY() == casillaY) {
+						System.out.println("Click ciudad "+ci.getNombre());
+						return;
+					}
+				}
+			}
+			Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();
+			Casilla cas = casillas[casillaX][casillaY];
+			System.out.println("Click casilla: "+cas.getTipo());
+		}		
 	}
 
 	@Override

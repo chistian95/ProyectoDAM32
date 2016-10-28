@@ -36,7 +36,7 @@ public class Jugador {
 				c.setCapital(true);
 				ciudades.add(c);
 				
-				Unidad u = new Unidad(this, TipoUnidad.GUERRERO, x+1, y);
+				Unidad u = new Unidad(this, TipoUnidad.GUERRERO, x, y);
 				unidades.add(u);
 				break;
 			}
