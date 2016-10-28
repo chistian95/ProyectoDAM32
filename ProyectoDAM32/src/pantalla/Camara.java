@@ -1,9 +1,14 @@
 package pantalla;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
@@ -14,7 +19,7 @@ import juego.jugador.unidad.Unidad;
 import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
-public class Camara implements KeyListener, MouseWheelListener {
+public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 	public static final int ZOOM_TEXTURAS = 50;
 	
 	private static final double DELTA_ZOOM = 5;
@@ -38,17 +43,25 @@ public class Camara implements KeyListener, MouseWheelListener {
 		
 		juego.getPantalla().addKeyListener(this);
 		juego.getPantalla().addMouseWheelListener(this);
+		juego.getPantalla().addMouseListener(this);
 		
 		precargarTexturas();
 	}
 	
-	public void pintar(Graphics2D g) {		
+	public void pintar(Graphics2D g) {				
+		pintarMundo(g);		
+		pintarGUI(g);		
+		pintarEntidades(g);
+		
+		moverCamara();
+	}
+	
+	private void pintarMundo(Graphics2D g) {
 		Pantalla pantalla = juego.getPantalla();
 		Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();	
 		
 		int xIni = (int) (x-zoom/2);
-		int yIni = (int) (y-zoom/2);
-		
+		int yIni = (int) (y-zoom/2);		
 		double xTam = pantalla.WIDTH / zoom;
 		double yTam = pantalla.HEIGHT / zoom;
 		
@@ -101,6 +114,16 @@ public class Camara implements KeyListener, MouseWheelListener {
 				}
 			}
 		}
+	}
+	
+	private void pintarEntidades(Graphics2D g) {
+		Pantalla pantalla = juego.getPantalla();
+		Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();	
+		
+		int xIni = (int) (x-zoom/2);
+		int yIni = (int) (y-zoom/2);		
+		double xTam = pantalla.WIDTH / zoom;
+		double yTam = pantalla.HEIGHT / zoom;
 		
 		for(int y=0; y<zoom; y++) {
 			for(int x=0; x<zoom; x++) {
@@ -148,7 +171,43 @@ public class Camara implements KeyListener, MouseWheelListener {
 				}
 			}
 		}
-		moverCamara();
+	}
+	
+	private void pintarGUI(Graphics2D g) {
+		Pantalla pantalla = juego.getPantalla();
+		
+		Point raton = MouseInfo.getPointerInfo().getLocation();
+		Point pantallaPos = pantalla.getLocationOnScreen();
+		
+		double ratonX = raton.getX() - pantallaPos.getX();
+		double ratonY = raton.getY() - pantallaPos.getY();
+		ratonX = ratonX < 0 ? 0 : ratonX;
+		ratonX = ratonX > pantalla.WIDTH ? juego.getPantalla().WIDTH : ratonX;
+		ratonY = ratonY < 0 ? 0 : ratonY;
+		ratonY = ratonY > pantalla.HEIGHT ? juego.getPantalla().HEIGHT : ratonY;
+		
+		//Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();	
+		
+		int xIni = (int) (x-zoom/2);
+		int yIni = (int) (y-zoom/2);
+		double xTam = pantalla.WIDTH / zoom;
+		double yTam = pantalla.HEIGHT / zoom;
+		
+		int casillaX = (int) (xIni + ratonX / xTam);
+		int casillaY = (int) (yIni + ratonY / yTam);
+		int casillaRelX = (int) (ratonX / xTam);
+		int casillaRelY = (int) (ratonY / yTam);
+		
+		g.setColor(new Color(255, 255, 255, 127));
+		g.fillRect((int) (casillaRelX * xTam), (int) (casillaRelY * yTam), (int) xTam, (int) yTam); 
+		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(1));
+		g.drawRect((int) (casillaRelX * xTam), (int) (casillaRelY * yTam), (int) xTam, (int) yTam);
+		
+		g.setColor(Color.BLACK);
+		g.drawString(ratonX+", "+ratonY, 100, 100);
+		g.drawString(casillaX+", "+casillaY, 100, 120);
+		g.drawString(casillaRelX+", "+casillaRelY, 100, 140);
 	}
 	
 	private void moverCamara() {
@@ -274,5 +333,25 @@ public class Camara implements KeyListener, MouseWheelListener {
 			zoom = juego.getGenerador().getPaso2().getCasillas().length - 1;
 		}
 		this.zoom = zoom;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 	}
 }
