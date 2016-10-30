@@ -172,7 +172,6 @@ public class JugadorHumano extends Jugador implements KeyListener, MouseListener
 				Point puntoCasilla = new Point(casillaX, casillaY);
 				Point puntoUnidad = new Point(xUni, yUni);
 				int dist = (int) (puntoCasilla.distance(puntoUnidad));
-				System.out.println(dist);
 				
 				Casilla casilla = juego.getGenerador().getPaso2().getCasillas()[casillaX][casillaY];
 				

@@ -27,7 +27,8 @@ public class Jugador {
 	
 	public void ponerEnMundo() {
 		Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();
-		while(true) {
+		boolean salir = false;
+		do {
 			int x = (int) (Math.random()*casillas.length);
 			int y = (int) (Math.random()*casillas[0].length);
 			
@@ -36,11 +37,40 @@ public class Jugador {
 				c.setCapital(true);
 				ciudades.add(c);
 				
-				Unidad u = new Unidad(this, TipoUnidad.GUERRERO, x, y);
-				unidades.add(u);
-				break;
+				int uniX = x - 1;
+				int uniY = y - 1;
+				uniX = uniX < 0 ? 0 : uniX;
+				uniY = uniY < 0 ? 0 : uniY;
+				
+				for(int dY = 0; dY < 3 && !salir; dY++) {
+					int uY = dY + uniY;
+					uY = uY >= casillas[0].length ? casillas[0].length - uY : uY;
+					
+					for(int dX = 0; dX < 3 && !salir; dX++) {
+						int uX = dX + uniX;
+						uX = uX >= casillas.length ? casillas.length - uX : uX;
+						
+						if(uX == x && uY == y) {
+							continue;
+						}
+						
+						Casilla cas = casillas[uX][uY];
+						if(!cas.getTipo().isLiquido() && cas.getTipo().isMoldeable()) {
+							Unidad u = new Unidad(this, TipoUnidad.GUERRERO, uX, uY);
+							unidades.add(u);
+							salir = true;
+							break;
+						}
+					}
+				}
+				
+				if(!salir) {
+					Unidad u = new Unidad(this, TipoUnidad.GUERRERO, x, y);
+					unidades.add(u);
+					salir = true;
+				}				
 			}
-		}
+		} while(!salir);
 	}
 	
 	public void hacerTurno() {

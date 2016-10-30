@@ -199,6 +199,9 @@ public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 		
 		int casillaX = (int) (xIni + ratonX / xTam);
 		int casillaY = (int) (yIni + ratonY / yTam);
+		casillaX = casillaX >= casillas.length ? casillas.length - 1 : casillaX;
+		casillaY = casillaY >= casillas[0].length ? casillas[0].length - 1 : casillaY;
+		
 		int casillaRelX = (int) (ratonX / xTam);
 		int casillaRelY = (int) (ratonY / yTam);
 		
