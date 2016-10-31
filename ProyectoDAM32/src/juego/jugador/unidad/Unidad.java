@@ -8,6 +8,7 @@ import java.awt.Point;
 import juego.jugador.EstadoJugador;
 import juego.jugador.Jugador;
 import juego.jugador.JugadorHumano;
+import juego.jugador.ciudad.Ciudad;
 import juego.mapa.Casilla;
 import pantalla.pintar.Pintable;
 
@@ -92,21 +93,40 @@ public class Unidad implements Pintable {
 		}
 	}
 	
+	public int calcularDistancia(Point pCas) {		
+		return (int) Math.floor(Math.sqrt(Math.pow((pCas.getX() - x), 2) + Math.pow((pCas.getY() - y), 2)));
+	}
+	
 	public boolean puedeMoverse(Casilla casilla) {
 		Point puntoCasilla = new Point(casilla.getX(), casilla.getY());
-		Point puntoUnidad = new Point(x, y);
-		int dist = (int) (puntoCasilla.distance(puntoUnidad));
-		if(dist <= movimientos) {
-			if(casilla.getTipo().isLiquido()) {
-				return false;
-			}
-			if(!casilla.getTipo().isMoldeable()) {
-				return false;
-			}
-			return true;
+		int dist = calcularDistancia(puntoCasilla);
+		if(dist > movimientos) {
+			return false;
+		}
+		if(casilla.getTipo().isLiquido()) {
+			return false;
+		}
+		if(!casilla.getTipo().isMoldeable()) {
+			return false;
 		}
 		
-		return false;
+		for(Jugador jg : jugador.getJuego().getJugadores()) {
+			for(Unidad un : jg.getUnidades()) {
+				if(un.getX() == casilla.getX() && un.getY() == casilla.getY()) {
+					return false;
+				}
+			}
+			if(jg.equals(jugador)) {
+				continue;
+			}
+			for(Ciudad c : jg.getCiudades()) {
+				if(c.getX() == casilla.getX() && c.getY() == casilla.getY()) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 
 	public String getNombre() {

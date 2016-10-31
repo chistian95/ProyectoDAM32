@@ -12,6 +12,7 @@ import java.util.List;
 
 import juego.Juego;
 import juego.Nacion;
+import juego.jugador.ciudad.Ciudad;
 import juego.jugador.unidad.Unidad;
 import juego.mapa.Casilla;
 import pantalla.Camara;
@@ -68,7 +69,6 @@ public class JugadorHumano extends Jugador implements KeyListener, MouseListener
 					unidadSel = un;
 					un.reiniciarMovimientos();
 					juego.getRender().getCamara().setPos(un.getX(), un.getY());
-					juego.getRender().getCamara().setZoom(6);
 					this.wait();
 				}				
 				estadoJugador = EstadoJugador.ESPERA;
@@ -141,38 +141,41 @@ public class JugadorHumano extends Jugador implements KeyListener, MouseListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		Pantalla pantalla = juego.getPantalla();
+		Camara camara = juego.getRender().getCamara();
+		double x = camara.getX();
+		double y = camara.getY();
+		double zoom = camara.getZoom();
+		
+		Point raton = MouseInfo.getPointerInfo().getLocation();
+		Point pantallaPos = pantalla.getLocationOnScreen();
+		
+		double ratonX = raton.getX() - pantallaPos.getX();
+		double ratonY = raton.getY() - pantallaPos.getY();
+		ratonX = ratonX < 0 ? 0 : ratonX;
+		ratonX = ratonX > pantalla.WIDTH ? juego.getPantalla().WIDTH : ratonX;
+		ratonY = ratonY < 0 ? 0 : ratonY;
+		ratonY = ratonY > pantalla.HEIGHT ? juego.getPantalla().HEIGHT : ratonY;		
+		
+		int xIni = (int) (x-zoom/2);
+		int yIni = (int) (y-zoom/2);
+		double xTam = pantalla.WIDTH / zoom;
+		double yTam = pantalla.HEIGHT / zoom;
+		
+		int casillaX = (int) (xIni + ratonX / xTam);
+		int casillaY = (int) (yIni + ratonY / yTam);
+		casillaX = casillaX >= juego.getGenerador().getPaso2().getCasillas().length ? 0 : casillaX;
+		casillaX = casillaX < 0 ? juego.getGenerador().getPaso2().getCasillas().length - 1 : casillaX;
+		casillaY = casillaY >= juego.getGenerador().getPaso2().getCasillas()[0].length ? 0 : casillaY;
+		casillaY = casillaY < 0 ? juego.getGenerador().getPaso2().getCasillas()[0].length - 1 : casillaY;
+		
+		Point puntoCasilla = new Point(casillaX, casillaY);		
+		
 		if(e.getButton() == MouseEvent.BUTTON3 && estadoJugador.equals(EstadoJugador.MOVER_UNIDAD)) {
-			if(unidadSel.getJugador().equals(this)) {
-				Pantalla pantalla = juego.getPantalla();
-				Camara camara = juego.getRender().getCamara();
-				double x = camara.getX();
-				double y = camara.getY();
-				double zoom = camara.getZoom();
-				
-				Point raton = MouseInfo.getPointerInfo().getLocation();
-				Point pantallaPos = pantalla.getLocationOnScreen();
-				
-				double ratonX = raton.getX() - pantallaPos.getX();
-				double ratonY = raton.getY() - pantallaPos.getY();
-				ratonX = ratonX < 0 ? 0 : ratonX;
-				ratonX = ratonX > pantalla.WIDTH ? juego.getPantalla().WIDTH : ratonX;
-				ratonY = ratonY < 0 ? 0 : ratonY;
-				ratonY = ratonY > pantalla.HEIGHT ? juego.getPantalla().HEIGHT : ratonY;		
-				
-				int xIni = (int) (x-zoom/2);
-				int yIni = (int) (y-zoom/2);
-				double xTam = pantalla.WIDTH / zoom;
-				double yTam = pantalla.HEIGHT / zoom;
-				
-				int casillaX = (int) (xIni + ratonX / xTam);
-				int casillaY = (int) (yIni + ratonY / yTam);				
-				int xUni = unidadSel.getX();
-				int yUni = unidadSel.getY();
-				
-				Point puntoCasilla = new Point(casillaX, casillaY);
-				Point puntoUnidad = new Point(xUni, yUni);
-				int dist = (int) (puntoCasilla.distance(puntoUnidad));
-				
+			int dist = unidadSel.calcularDistancia(puntoCasilla);
+			System.out.println("Distancia: "+dist);
+			
+			if(unidadSel.getJugador().equals(this)) {				
 				Casilla casilla = juego.getGenerador().getPaso2().getCasillas()[casillaX][casillaY];
 				
 				if(unidadSel.puedeMoverse(casilla)) {
@@ -180,6 +183,35 @@ public class JugadorHumano extends Jugador implements KeyListener, MouseListener
 					unidadSel.setMovimientos(unidadSel.getMovimientos() - dist);
 				}
 			}
+		}
+		
+		if(e.getButton() == MouseEvent.BUTTON1) {
+			for(Jugador jg : juego.getJugadores()) {
+				for(Unidad un : jg.getUnidades()) {
+					if(un.getX() == casillaX && un.getY() == casillaY) {
+						if(juego.getJugador().getUnidadSel().equals(un)) {
+							for(Ciudad ci : jg.getCiudades()) {
+								if(ci.getX() == casillaX && ci.getY() == casillaY) {
+									System.out.println("Click ciudad "+ci.getNombre());
+									return;
+								}
+							}
+						}
+						System.out.println("Click unidad "+un.getNombre());
+						juego.getJugador().setUnidadSel(un);					
+						return;
+					}
+				}
+				for(Ciudad ci : jg.getCiudades()) {
+					if(ci.getX() == casillaX && ci.getY() == casillaY) {
+						System.out.println("Click ciudad "+ci.getNombre());
+						return;
+					}
+				}
+			}
+			Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();
+			Casilla cas = casillas[casillaX][casillaY];
+			System.out.println("Click casilla: "+cas.getTipo());
 		}
 	}
 

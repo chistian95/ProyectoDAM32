@@ -7,8 +7,6 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
@@ -20,7 +18,7 @@ import juego.jugador.unidad.Unidad;
 import juego.mapa.Casilla;
 import juego.mapa.TipoCasilla;
 
-public class Camara implements KeyListener, MouseWheelListener, MouseListener {
+public class Camara implements KeyListener, MouseWheelListener {
 	public static final int ZOOM_TEXTURAS = 50;
 	
 	private static final double DELTA_ZOOM = 5;
@@ -44,7 +42,6 @@ public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 		
 		juego.getPantalla().addKeyListener(this);
 		juego.getPantalla().addMouseWheelListener(this);
-		juego.getPantalla().addMouseListener(this);
 		
 		precargarTexturas();
 	}
@@ -349,72 +346,5 @@ public class Camara implements KeyListener, MouseWheelListener, MouseListener {
 			zoom = juego.getGenerador().getPaso2().getCasillas().length - 1;
 		}
 		this.zoom = zoom;
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		Pantalla pantalla = juego.getPantalla();		
-		Point raton = MouseInfo.getPointerInfo().getLocation();
-		Point pantallaPos = pantalla.getLocationOnScreen();
-		
-		double ratonX = raton.getX() - pantallaPos.getX();
-		double ratonY = raton.getY() - pantallaPos.getY();
-		ratonX = ratonX < 0 ? 0 : ratonX;
-		ratonX = ratonX > pantalla.WIDTH ? juego.getPantalla().WIDTH : ratonX;
-		ratonY = ratonY < 0 ? 0 : ratonY;
-		ratonY = ratonY > pantalla.HEIGHT ? juego.getPantalla().HEIGHT : ratonY;		
-		
-		int xIni = (int) (x-zoom/2);
-		int yIni = (int) (y-zoom/2);
-		double xTam = pantalla.WIDTH / zoom;
-		double yTam = pantalla.HEIGHT / zoom;
-		
-		int casillaX = (int) (xIni + ratonX / xTam);
-		int casillaY = (int) (yIni + ratonY / yTam);		
-		
-		if(juego.getJugadores() != null && juego.getJugador() != null) {
-			for(Jugador jg : juego.getJugadores()) {
-				for(Unidad un : jg.getUnidades()) {
-					if(un.getX() == casillaX && un.getY() == casillaY) {
-						if(juego.getJugador().getUnidadSel().equals(un)) {
-							for(Ciudad ci : jg.getCiudades()) {
-								if(ci.getX() == casillaX && ci.getY() == casillaY) {
-									System.out.println("Click ciudad "+ci.getNombre());
-									return;
-								}
-							}
-						}
-						System.out.println("Click unidad "+un.getNombre());
-						juego.getJugador().setUnidadSel(un);					
-						return;
-					}
-				}
-				for(Ciudad ci : jg.getCiudades()) {
-					if(ci.getX() == casillaX && ci.getY() == casillaY) {
-						System.out.println("Click ciudad "+ci.getNombre());
-						return;
-					}
-				}
-			}
-			Casilla[][] casillas = juego.getGenerador().getPaso2().getCasillas();
-			Casilla cas = casillas[casillaX][casillaY];
-			System.out.println("Click casilla: "+cas.getTipo());
-		}		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
 	}
 }

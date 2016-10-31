@@ -113,4 +113,26 @@ public class Jugador {
 	public List<Unidad> getUnidades() {
 		return unidades;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nacion == null) ? 0 : nacion.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Jugador other = (Jugador) obj;
+		if (nacion != other.nacion)
+			return false;
+		return true;
+	}
 }
