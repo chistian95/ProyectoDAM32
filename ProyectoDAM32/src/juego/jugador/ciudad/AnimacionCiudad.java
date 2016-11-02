@@ -7,14 +7,23 @@ import javax.swing.Timer;
 
 import pantalla.Camara;
 
+/**
+ * Va moviendo la camara y el zoom de esta hacia la ciudad indicada
+ * 
+ * @author dam32-Corral *
+ */
 public class AnimacionCiudad extends Thread {
 	private static final int ZOOM_ANIM = 5;
-	
+
 	private Ciudad ciudad;
 	private Timer timer;
 	private double deltaX;
 	private double deltaY;
 	
+	/**
+	 * Inicia en un hilo a parte la animación hacia la ciudad
+	 * @param ciudad Ciudad a la que se hace la animación
+	 */
 	public AnimacionCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
 		
@@ -27,7 +36,11 @@ public class AnimacionCiudad extends Thread {
 		start();
 	}
 	
-	@Override
+	/**
+	 * Cada 10 milisegundos llama a la función animar (En un hilo a parte)
+	 * @see AnimacionCiudad#animar()
+	 */
+	@Override	
 	public void run() {
 		ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -14,14 +14,26 @@ import juego.jugador.Jugador;
 import pantalla.Camara;
 import pantalla.pintar.Pintable;
 
+/**
+ * La ciudad de un jugador (Se puede pintar en pantalla)
+ * @author dam32-Corral
+ *
+ */
 public class Ciudad implements Pintable {
 	private Jugador jugador;
-	String nombre;
+	private String nombre;
 	private int x;
 	private int y;
 	private boolean capital;
 	private BufferedImage textura;
 	
+	/**
+	 * Crea la ciudad generando un nombre y carga su textura
+	 * @param jugador Jugador dueño de la ciudad
+	 * @param x Posición X en el mapa
+	 * @param y Posición Y en el mapa
+	 * @see #generarNombre()
+	 */
 	public Ciudad(Jugador jugador, int x, int y) {
 		this.jugador = jugador;
 		this.x = x;
@@ -37,6 +49,10 @@ public class Ciudad implements Pintable {
 		}
 	}
 	
+	/**
+	 * Mueve la camara a la ciudad con una animación
+	 * @see AnimacionCiudad
+	 */
 	public void centrarCamara() {
 		new AnimacionCiudad(this);
 	}
@@ -53,6 +69,9 @@ public class Ciudad implements Pintable {
 	}
 	
 	@Override
+	/**
+	 * Pinta la ciudad en la pantalla
+	 */
 	public void pintar(Graphics2D g, int x, int y, int tamX, int tamY) {
 		double zoom = jugador.getJuego().getRender().getCamara().getZoom();
 		if(zoom > Camara.ZOOM_TEXTURAS) {
@@ -99,30 +118,63 @@ public class Ciudad implements Pintable {
 		g.drawString(nombre, textoX, textoY);
 	}
 	
+	/**
+	 * 
+	 * @return Jugador dueño de la ciudad
+	 */
 	public Jugador getJugador() {
 		return jugador;
 	}
 	
+	/**
+	 * 
+	 * @return Posición X en el mapa
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * 
+	 * @return Posición Y en el mapa
+	 */
 	public int getY() {
 		return y;
 	}
 	
+	/**
+	 * 
+	 * @return Devuelve 'true' si la ciudad es la capital del jugador
+	 */
 	public boolean isCapital() {
 		return capital;
 	}
 	
+	/**
+	 * Convertir la ciudad en capital (Se debe comprobar que no haya capital)
+	 * @param capital 'true' si se quiere convertir esta ciudad en capital
+	 */
 	public void setCapital(boolean capital) {
+		if(capital) {
+			for(Ciudad c : jugador.getCiudades()) {
+				c.setCapital(false);
+			}
+		}
 		this.capital = capital;
 	}
 	
+	/**
+	 * 
+	 * @return Nombre de la ciudad
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 	
+	/**
+	 * 
+	 * @return Textura de la ciudad
+	 */
 	public BufferedImage getTextura() {
 		return textura;
 	}
