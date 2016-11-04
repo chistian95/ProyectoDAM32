@@ -1,6 +1,8 @@
 package juego;
 
-public enum EstadoJuego {
+import java.io.Serializable;
+
+public enum EstadoJuego implements Serializable {
 	GENERANDO(0, "Generando"),
 	VISTA_MUNDO(1, "Vista Mundo"),
 	PRECARGA(2, "Cargando");

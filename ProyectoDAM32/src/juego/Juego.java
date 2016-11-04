@@ -1,5 +1,9 @@
 package juego;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,40 +11,58 @@ import juego.jugador.Jugador;
 import juego.jugador.JugadorHumano;
 import juego.jugador.TurnoJugador;
 import juego.mapa.Generador;
+import network.cliente.Cliente;
 import network.servidor.Servidor;
 import pantalla.Pantalla;
 import pantalla.Renderizador;
 
-public class Juego extends Thread {
+public class Juego extends Thread implements Serializable {
+	private static final long serialVersionUID = 6719433736837770684L;
+
+	public static void main(String[] args) {
+		new Juego(true);
+	}
+	
 	private Pantalla pantalla;
 	private Renderizador render;
 	private Generador generador;
 	private JugadorHumano jugador;
 	private EstadoJuego estadoJuego;
 	private List<Jugador> jugadores;
+	private boolean isServidor;
+	private Cliente cliente;
 	private Servidor servidor;
 	
 	public Juego() {
+		this(false);
+	}
+	
+	public Juego(boolean isServidor) {
+		this.isServidor = isServidor;
 		start();
 	}
 	
 	public void run() {
 		estadoJuego = EstadoJuego.PRECARGA;
 		pantalla = new Pantalla(this);
-		generador = new Generador(this);
-		render = new Renderizador(this);
-		
-		try {
-			generador.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		estadoJuego = EstadoJuego.VISTA_MUNDO;
-		jugadores = new ArrayList<Jugador>();
-		jugador = new JugadorHumano(this);
-		jugadores.add(jugador);
-		servidor = new Servidor(this);
+		if(isServidor) {			
+			generador = new Generador(this);
+			render = new Renderizador(this);
+			
+			try {
+				generador.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			estadoJuego = EstadoJuego.VISTA_MUNDO;
+			jugadores = new ArrayList<Jugador>();
+			jugador = new JugadorHumano(this);
+			jugadores.add(jugador);
+			servidor = new Servidor(this);
+		} else {	
+			cliente = new Cliente(this);
+		}		
 	}
 	
 	public void crearNaciones() {
@@ -77,6 +99,14 @@ public class Juego extends Thread {
 		siguienteTurno();
 	}
 	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeObject(jugador.getEstadoJugador());
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.readObject();
+	}
+	
 	public EstadoJuego getEstadoJuego() {
 		return estadoJuego;
 	}
@@ -107,5 +137,13 @@ public class Juego extends Thread {
 	
 	public Servidor getServidor() {
 		return servidor;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+	
+	public boolean isServidor() {
+		return isServidor;
 	}
 }
