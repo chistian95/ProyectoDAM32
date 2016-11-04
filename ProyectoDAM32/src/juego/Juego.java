@@ -7,6 +7,7 @@ import juego.jugador.Jugador;
 import juego.jugador.JugadorHumano;
 import juego.jugador.TurnoJugador;
 import juego.mapa.Generador;
+import network.servidor.Servidor;
 import pantalla.Pantalla;
 import pantalla.Renderizador;
 
@@ -17,6 +18,7 @@ public class Juego extends Thread {
 	private JugadorHumano jugador;
 	private EstadoJuego estadoJuego;
 	private List<Jugador> jugadores;
+	private Servidor servidor;
 	
 	public Juego() {
 		start();
@@ -38,6 +40,7 @@ public class Juego extends Thread {
 		jugadores = new ArrayList<Jugador>();
 		jugador = new JugadorHumano(this);
 		jugadores.add(jugador);
+		servidor = new Servidor(this);
 	}
 	
 	public void crearNaciones() {
@@ -100,5 +103,9 @@ public class Juego extends Thread {
 	
 	public List<Jugador> getJugadores() {
 		return jugadores;
+	}
+	
+	public Servidor getServidor() {
+		return servidor;
 	}
 }
