@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import juego.BundleCliente;
 import juego.Juego;
 
 public class Cliente extends Thread {
@@ -34,8 +35,8 @@ public class Cliente extends Thread {
 		System.out.println("Escuchando...");
 		try {
 			while(true) {
-				Object obj = ois.readObject();
-				System.out.println(obj);
+				BundleCliente b = (BundleCliente) ois.readUnshared();
+				System.out.println(b);
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("Error al leer el objeto: "+e.getMessage());

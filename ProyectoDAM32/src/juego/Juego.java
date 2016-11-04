@@ -1,9 +1,5 @@
 package juego;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +12,7 @@ import network.servidor.Servidor;
 import pantalla.Pantalla;
 import pantalla.Renderizador;
 
-public class Juego extends Thread implements Serializable {
-	private static final long serialVersionUID = 6719433736837770684L;
-
+public class Juego extends Thread {
 	public static void main(String[] args) {
 		new Juego(true);
 	}
@@ -32,6 +26,7 @@ public class Juego extends Thread implements Serializable {
 	private boolean isServidor;
 	private Cliente cliente;
 	private Servidor servidor;
+	private BundleCliente bundleCliente;
 	
 	public Juego() {
 		this(false);
@@ -45,6 +40,7 @@ public class Juego extends Thread implements Serializable {
 	public void run() {
 		estadoJuego = EstadoJuego.PRECARGA;
 		pantalla = new Pantalla(this);
+		bundleCliente = new BundleCliente(this);
 		if(isServidor) {			
 			generador = new Generador(this);
 			render = new Renderizador(this);
@@ -99,14 +95,6 @@ public class Juego extends Thread implements Serializable {
 		siguienteTurno();
 	}
 	
-	private void writeObject(ObjectOutputStream out) throws IOException {
-		out.writeObject(jugador.getEstadoJugador());
-	}
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.readObject();
-	}
-	
 	public EstadoJuego getEstadoJuego() {
 		return estadoJuego;
 	}
@@ -145,5 +133,9 @@ public class Juego extends Thread implements Serializable {
 	
 	public boolean isServidor() {
 		return isServidor;
+	}
+	
+	public BundleCliente getBundleCliente() {
+		return bundleCliente;
 	}
 }

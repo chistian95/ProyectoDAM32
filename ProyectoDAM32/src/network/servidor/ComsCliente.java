@@ -11,6 +11,7 @@ import javax.swing.Timer;
 public class ComsCliente extends Thread {
 	private Servidor servidor;
 	private Socket cliente;
+	private Timer timer;
 	private ObjectOutputStream oos;
 	
 	public ComsCliente(Servidor servidor, Socket cliente) {
@@ -27,19 +28,17 @@ public class ComsCliente extends Thread {
 			ActionListener listener = new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						System.out.println("Enviar estado del juego");
-						oos.writeObject(servidor.getJuego());
+						System.out.println("Escribir objeto");
+						oos.writeUnshared(servidor.getJuego().getBundleCliente());
 					} catch (IOException e1) {
 						System.out.println("Error al enviar el objeto: "+e1.getMessage());
+						timer.stop();
 					}  
 				}
 			};
-			Timer timer = new Timer(100, listener);
+			timer = new Timer(2000, listener);
 			timer.setRepeats(true);
 			timer.start();
-			while(true) {
-				
-			}
 		} catch (IOException e) {
 			System.out.println("Error con el servidor: "+e.getMessage());
 		}
